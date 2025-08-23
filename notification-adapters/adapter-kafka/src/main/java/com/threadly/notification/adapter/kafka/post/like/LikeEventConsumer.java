@@ -15,15 +15,12 @@ public class LikeEventConsumer {
   private final LikePostNotificationUseCase likePostNotificationUseCase;
 
   @Bean("like")
-  public Consumer<LikeEvent> like() {
+  public Consumer<PostLikeEvent> like() {
     return event -> {
       likePostNotificationUseCase.handleLikeEvent(
-          event.getUserId(), event.getPostId(), event.getType()
+          PostLikeCommandMapper.toCommand(event)
       );
     };
   }
 }
 
-/*
-echo '{"type": "ADD", "postId":"post1", "userId":"user1"}' | kafka-console-producer --broker-list localhost:9092 --topic like-in-0
-* */

@@ -1,3 +1,7 @@
 spring:
   application:
     name: notification-service
+
+  # Profile 설정
+  profiles:
+    active: dev

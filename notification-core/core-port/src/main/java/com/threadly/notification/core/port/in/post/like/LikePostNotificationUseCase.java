@@ -7,6 +7,6 @@ import com.threadly.notification.core.domain.post.LikeEventType;
  */
 public interface LikePostNotificationUseCase {
 
-  void handleLikeEvent(String userId, String postId, LikeEventType eventType);
+  void handleLikeEvent(PostLikeNotificationCommand command);
 
 }

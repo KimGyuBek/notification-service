@@ -1,0 +1,16 @@
+services:
+  mongodb:
+    container_name: mongodb-dev
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/notification-service/infra/docker-volumes/mongo-dev/data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME = notification
+      - MONGO_INITDB_ROOT_PASSWORD = notification
+
+
+
+
