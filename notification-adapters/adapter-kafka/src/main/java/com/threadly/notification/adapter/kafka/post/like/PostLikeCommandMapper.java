@@ -1,6 +1,6 @@
 package com.threadly.notification.adapter.kafka.post.like;
 
-import com.threadly.notification.core.port.in.post.like.PostLikeNotificationCommand;
+import com.threadly.notification.core.port.post.like.in.PostLikeNotificationCommand;
 
 public class PostLikeCommandMapper {
 

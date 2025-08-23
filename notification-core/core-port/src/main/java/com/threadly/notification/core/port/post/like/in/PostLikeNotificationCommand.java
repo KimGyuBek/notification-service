@@ -1,4 +1,4 @@
-package com.threadly.notification.core.port.in.post.like;
+package com.threadly.notification.core.port.post.like.in;
 
 import com.threadly.notification.core.domain.post.LikeEventType;
 import java.time.LocalDateTime;

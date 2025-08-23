@@ -36,4 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 
-infra/docker-volumes/*
+infra/docker-volumes/

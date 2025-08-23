@@ -1,6 +1,6 @@
 package com.threadly.notification.adapter.kafka.post.like;
 
-import com.threadly.notification.core.port.in.post.like.LikePostNotificationUseCase;
+import com.threadly.notification.core.port.post.like.in.LikePostNotificationUseCase;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
