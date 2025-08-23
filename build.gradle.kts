@@ -12,7 +12,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.threadly"
+    group = "com.threadly.notification"
     version = "1.0-SNAPSHOT"
 
     repositories {
