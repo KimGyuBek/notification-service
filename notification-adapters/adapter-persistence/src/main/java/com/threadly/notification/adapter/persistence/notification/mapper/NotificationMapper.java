@@ -17,7 +17,26 @@ public class NotificationMapper {
         domain.getReceiverId(),
         domain.getNotificationType(),
         domain.getMetadata(),
-        domain.getOccurredAt()
+        domain.getOccurredAt(),
+        domain.getActorProfile()
+    );
+  }
+
+  /**
+   * entity -> domain
+   *
+   * @param entity
+   * @return
+   */
+  public static Notification toDomain(NotificationEntity entity) {
+    return new Notification(
+        entity.getEventId(),
+        entity.getReceiverId(),
+        entity.getNotificationType(),
+        entity.getOccurredAt(),
+        entity.getActorProfile(),
+        entity.isRead(),
+        entity.getMetadata()
     );
   }
 

@@ -1,4 +1,4 @@
-package com.threadly.notification.notification;
+package com.threadly.notification.security;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,9 +18,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-@DisplayName("Notification API 인증 테스트")
+@DisplayName("Security API 인증 테스트")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class NotificationApiTest extends BaseApiTest {
+class SecurityApiTest extends BaseApiTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -34,7 +34,7 @@ class NotificationApiTest extends BaseApiTest {
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
 
-  private static final String API_URL = "/api/notification/test";
+  private static final String API_URL = "/api/notifications/test";
   private static final String VALID_USER_ID = "user123";
   private static final String USER_TYPE = "USER";
   private static final String USER_STATUS_TYPE = "ACTIVE";

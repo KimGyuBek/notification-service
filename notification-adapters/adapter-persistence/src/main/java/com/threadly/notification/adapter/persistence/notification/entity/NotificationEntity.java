@@ -3,6 +3,8 @@ package com.threadly.notification.adapter.persistence.notification.entity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.threadly.notification.core.domain.notification.Notification;
+import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowRequestMeta;
@@ -55,6 +57,10 @@ public class NotificationEntity {
   @Field("occurred_at")
   private LocalDateTime occurredAt;
 
+  @NotBlank
+  @Field("actor_profile")
+  private Notification.ActorProfile actorProfile;
+
   @CreatedDate
   @Field("created_at")
   private LocalDateTime createdAt;
@@ -63,9 +69,8 @@ public class NotificationEntity {
   @Field("modified_at")
   private LocalDateTime modifiedAt;
 
-
   public NotificationEntity(String eventId, String receiverId, NotificationType notificationType,
-      NotificationMetaData metadata, LocalDateTime occurredAt
+      NotificationMetaData metadata, LocalDateTime occurredAt, ActorProfile actorProfile
   ) {
     this.eventId = eventId;
     this.receiverId = receiverId;
@@ -73,5 +78,9 @@ public class NotificationEntity {
     this.occurredAt = occurredAt;
     this.isRead = false;
     this.metadata = metadata;
+    this.actorProfile = actorProfile;
+  }
+
+  public NotificationEntity() {
   }
 }
