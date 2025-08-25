@@ -38,6 +38,7 @@ public class NotificationQueryService implements FetchNotificationUseCase {
         notification.getReceiverId(),
         notification.getNotificationType(),
         notification.getOccurredAt(),
+        notification.getActorProfile(),
         notification.isRead(),
         notification.getMetadata()
     );

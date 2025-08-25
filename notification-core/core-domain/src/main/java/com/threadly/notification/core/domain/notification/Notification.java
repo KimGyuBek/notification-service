@@ -16,21 +16,36 @@ public class Notification {
   private String receiverId;
   private NotificationType notificationType;
   private LocalDateTime occurredAt;
+  private ActorProfile actorProfile;
   private boolean isRead;
   private NotificationMetaData metadata;
 
   /**
    * 새로운 Notification 도메인 생성
+   *
    * @param eventId
    * @param receiverId
    * @param notificationType
    * @param occurredAt
-   * @param isRead
    * @param metadata
    * @return
    */
-  public static Notification newNotification(String eventId, String receiverId, NotificationType notificationType,
-      LocalDateTime occurredAt, NotificationMetaData metadata) {
-    return new Notification(eventId, receiverId, notificationType, occurredAt, false, metadata);
+  public static Notification newNotification(String eventId, String receiverId,
+      NotificationType notificationType,
+      LocalDateTime occurredAt, ActorProfile actorProfile, NotificationMetaData metadata) {
+    return new Notification(eventId, receiverId, notificationType, occurredAt, actorProfile, false,
+        metadata);
+  }
+
+  /**
+   * 행위자 프로필
+   *
+   * @param userId
+   * @param nickname
+   * @param profileImageUrl
+   */
+  public record ActorProfile(String userId, String nickname, String profileImageUrl) {
+
+
   }
 }

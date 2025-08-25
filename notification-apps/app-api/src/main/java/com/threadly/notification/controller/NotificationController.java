@@ -1,6 +1,7 @@
 package com.threadly.notification.controller;
 
 import com.threadly.notification.auth.JwtAuthenticationUser;
+import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.port.notification.in.FetchNotificationUseCase;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class NotificationController {
    * @return
    */
   @GetMapping()
-  public ResponseEntity<Void> getNotifications(
+  public ResponseEntity<CursorPageApiResponse> getNotifications(
       @AuthenticationPrincipal JwtAuthenticationUser user
   ) {
 

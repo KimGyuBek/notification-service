@@ -1,10 +1,11 @@
 package com.threadly.notification.core.service.notification;
 
 import com.threadly.notification.core.domain.notification.Notification;
-import com.threadly.notification.core.service.utils.MetadataMapper;
-import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
+import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.port.notification.in.NotificationCommand;
+import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
 import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
+import com.threadly.notification.core.service.utils.MetadataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,11 @@ public class NotificationCommandService implements NotificationCommandUseCase {
         command.receiverId(),
         command.notificationType(),
         command.occurredAt(),
+        new ActorProfile(
+            command.actorProfile().userId(),
+            command.actorProfile().nickname(),
+            command.actorProfile().profileImageUrl()
+        ),
         metadataMapper.toTypeMeta(command.notificationType(), command.metadata())
     );
 

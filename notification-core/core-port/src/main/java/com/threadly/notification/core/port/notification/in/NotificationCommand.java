@@ -1,5 +1,6 @@
 package com.threadly.notification.core.port.notification.in;
 
+import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -12,7 +13,8 @@ public record NotificationCommand(
     String receiverId,
     NotificationType notificationType,
     Map<String, Object> metadata,
-    LocalDateTime occurredAt
+    LocalDateTime occurredAt,
+    ActorProfile actorProfile
 ) {
 
 

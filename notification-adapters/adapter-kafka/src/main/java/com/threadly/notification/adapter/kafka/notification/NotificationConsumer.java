@@ -1,5 +1,6 @@
 package com.threadly.notification.adapter.kafka.notification;
 
+import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
 import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class NotificationConsumer {
   public Consumer<NotificationEvent> notification() {
     return event -> {
       notificationCommandUseCase.handleNotificationEvent(
-          NotificationMapper.toCommand(event)
+          event.toCommand()
       );
     };
   }

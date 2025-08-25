@@ -5,6 +5,8 @@ import com.threadly.notification.BaseApiTest;
 import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
 import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
+import com.threadly.notification.core.domain.notification.Notification;
+import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
@@ -59,7 +61,8 @@ public class BaseNotificationApiTest extends BaseApiTest {
         receiverId,
         NotificationType.POST_LIKE,
         metadata,
-        LocalDateTime.now()
+        LocalDateTime.now(),
+//        new ActorProfile()
     );
   }
 

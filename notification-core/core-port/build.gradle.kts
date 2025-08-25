@@ -1,5 +1,7 @@
 dependencies {
     implementation(project(":notification-core:core-domain"))
+    implementation(project(":notification-commons"))
+
     implementation("com.fasterxml.jackson.core:jackson-annotations")
 
 }
