@@ -2,9 +2,9 @@ package com.threadly.notification.core.service.notification;
 
 import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.service.utils.MetadataMapper;
-import com.threadly.notification.core.port.post.like.in.NotificationCommandUseCase;
-import com.threadly.notification.core.port.post.like.in.NotificationCommand;
-import com.threadly.notification.core.port.post.like.out.NotificationCommandPort;
+import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
+import com.threadly.notification.core.port.notification.in.NotificationCommand;
+import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

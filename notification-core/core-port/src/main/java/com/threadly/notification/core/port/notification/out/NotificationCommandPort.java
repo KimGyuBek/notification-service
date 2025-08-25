@@ -1,7 +1,6 @@
-package com.threadly.notification.core.port.post.like.out;
+package com.threadly.notification.core.port.notification.out;
 
 import com.threadly.notification.core.domain.notification.Notification;
-import com.threadly.notification.core.port.post.like.in.NotificationCommand;
 
 /**
  * 게시글 좋아요 command port
