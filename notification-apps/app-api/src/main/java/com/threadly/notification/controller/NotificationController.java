@@ -4,6 +4,8 @@ import com.threadly.notification.auth.JwtAuthenticationUser;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.port.notification.in.FetchNotificationUseCase;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
+import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,7 +27,6 @@ public class NotificationController {
 
   private final FetchNotificationUseCase fetchNotificationUseCase;
 
-
   /**
    * 내 알림 목록 커서 기반 조회
    *
@@ -33,10 +35,17 @@ public class NotificationController {
    */
   @GetMapping()
   public ResponseEntity<CursorPageApiResponse> getNotifications(
-      @AuthenticationPrincipal JwtAuthenticationUser user
-  ) {
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok().body(
+        fetchNotificationUseCase.getNotificationsByCursor(
+            new GetNotificationsQuery(
+                user.getUserId(), cursorTimestamp, cursorId, limit)
+        )
+    );
   }
 
 

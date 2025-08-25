@@ -2,10 +2,14 @@ package com.threadly.notification.core.service.notification;
 
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.exception.notification.NotificationException;
+import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.port.notification.in.FetchNotificationUseCase;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
+import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
+import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
 import com.threadly.notification.core.port.notification.out.NotificationQueryPort;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +46,13 @@ public class NotificationQueryService implements FetchNotificationUseCase {
         notification.isRead(),
         notification.getMetadata()
     );
+  }
+
+  @Override
+  public CursorPageApiResponse<NotificationDetails> getNotificationsByCursor(GetNotificationsQuery query) {
+
+    List<NotificationDetails> notifications = notificationQueryPort.fetchNotificationsByCursor(query);
+
+    return CursorPageApiResponse.from(notifications, query.limit());
   }
 }

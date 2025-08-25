@@ -5,11 +5,13 @@ import com.threadly.notification.BaseApiTest;
 import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
 import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
+import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
+import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
 import com.threadly.notification.utils.AccessTokenTestUtils;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -41,6 +43,43 @@ public class BaseNotificationApiTest extends BaseApiTest {
     );
   }
 
+  /**
+   * 알림 목록 커서 기반 조회 요청
+   *
+   * @return
+   */
+  public CommonResponse<CursorPageApiResponse<NotificationDetails>> getNotificationsByCursorRequest(
+      String accessToken,
+      LocalDateTime cursorTimestamp,
+      String cursorId,
+      int limit,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    
+    StringBuilder urlBuilder = new StringBuilder("/api/notifications");
+    String separator = "?";
+    
+    if (cursorTimestamp != null) {
+      urlBuilder.append(separator).append("cursor_timestamp=").append(cursorTimestamp);
+      separator = "&";
+    }
+    
+    if (cursorId != null) {
+      urlBuilder.append(separator).append("cursor_id=").append(cursorId);
+      separator = "&";
+    }
+    
+    if (limit > 0) {
+      urlBuilder.append(separator).append("limit=").append(limit);
+    }
+    
+    return sendGetRequest(
+        accessToken, 
+        urlBuilder.toString(),
+        expectedStatus,
+        new TypeReference<>() {}
+    );
+  }
   /**
    * 테스트용 알림 엔티티 생성 (기본값)
    */
