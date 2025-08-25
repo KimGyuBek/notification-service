@@ -6,8 +6,10 @@ import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.core.domain.notification.NotificationType;
+import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -53,6 +55,13 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     assert data.receiverId().equals(VALID_USER_ID);
     assert data.notificationType() == NotificationType.POST_LIKE;
     assert !data.isRead(); // 기본적으로 읽지 않음
+    
+    // ActorProfile 검증
+    ActorProfile actorProfile = data.actorProfile();
+    assert actorProfile != null;
+    assert actorProfile.userId().equals("test-liker");
+    assert actorProfile.nickname().equals("test-nickname");
+    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
   }
 
   @Order(2)
@@ -179,6 +188,13 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     PostLikeMeta metadata = (PostLikeMeta) data.metaData();
     assert metadata.postId().equals("post2");
     assert metadata.likerId().equals("liker2");
+    
+    // ActorProfile 검증
+    ActorProfile actorProfile = data.actorProfile();
+    assert actorProfile != null;
+    assert actorProfile.userId().equals("liker2");
+    assert actorProfile.nickname().equals("test-nickname");
+    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
   }
 
   @Order(8)
@@ -203,6 +219,13 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     GetNotificationDetailsApiResponse data = response.getData();
     assert data.notificationType() == NotificationType.POST_LIKE;
     assert data.metaData() instanceof PostLikeMeta;
+    
+    // ActorProfile 검증
+    ActorProfile actorProfile = data.actorProfile();
+    assert actorProfile != null;
+    assert actorProfile.userId().equals("test-liker");
+    assert actorProfile.nickname().equals("test-nickname");
+    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
   }
 
   @Order(9)
@@ -230,6 +253,78 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     PostLikeMeta metadata = (PostLikeMeta) data.metaData();
     assert metadata.postId().equals(testPostId);
     assert metadata.likerId().equals(testLikerId);
+    
+    // ActorProfile 검증
+    ActorProfile actorProfile = data.actorProfile();
+    assert actorProfile != null;
+    assert actorProfile.userId().equals(testLikerId);
+    assert actorProfile.nickname().equals("test-nickname");
+    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
+  }
+
+  @Order(10)
+  @Test
+  @DisplayName("10. 다양한 ActorProfile 정보가 포함된 알림 조회 - 성공")
+  void getNotificationDetail_WithDifferentActorProfile_ShouldReturnCorrectProfile() throws Exception {
+    // given
+    String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
+        USER_STATUS_TYPE);
+    String customNickname = "커스텀닉네임";
+    String customProfileUrl = "https://custom.com/profile/image.jpg";
+    
+    NotificationEntity notification = createTestNotification(VALID_USER_ID, "custom-event", 
+        "custom-post", "custom-liker", customNickname, customProfileUrl);
+    notificationRepository.save(notification);
+
+    // when
+    CommonResponse<GetNotificationDetailsApiResponse> response = getNotificationDetailsRequest(
+        accessToken, notification.getEventId(), status().isOk()
+    );
+
+    // then
+    assert response.isSuccess();
+    GetNotificationDetailsApiResponse data = response.getData();
+    
+    // ActorProfile 상세 검증
+    ActorProfile actorProfile = data.actorProfile();
+    assert actorProfile != null;
+    assert actorProfile.userId().equals("custom-liker");
+    assert actorProfile.nickname().equals(customNickname);
+    assert actorProfile.profileImageUrl().equals(customProfileUrl);
+  }
+
+  @Order(11)
+  @Test
+  @DisplayName("11. null ActorProfile로 알림 조회 - ActorProfile 필드 검증")
+  void getNotificationDetail_WithNullActorProfile_ShouldHandleGracefully() throws Exception {
+    // given
+    String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
+        USER_STATUS_TYPE);
+    
+    // ActorProfile이 null인 알림 생성
+    PostLikeMeta metadata = new PostLikeMeta("test-post", "test-liker");
+    NotificationEntity notification = new NotificationEntity(
+        "null-profile-event",
+        VALID_USER_ID,
+        NotificationType.POST_LIKE,
+        metadata,
+        LocalDateTime.now(),
+        null  // ActorProfile을 null로 설정
+    );
+    notificationRepository.save(notification);
+
+    // when
+    CommonResponse<GetNotificationDetailsApiResponse> response = getNotificationDetailsRequest(
+        accessToken, notification.getEventId(), status().isOk()
+    );
+
+    // then
+    assert response.isSuccess();
+    GetNotificationDetailsApiResponse data = response.getData();
+    
+    // ActorProfile null 검증
+    ActorProfile actorProfile = data.actorProfile();
+    assert actorProfile == null;  // null 허용하는 경우
   }
 
 }

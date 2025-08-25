@@ -46,7 +46,7 @@ public class BaseNotificationApiTest extends BaseApiTest {
    */
   public NotificationEntity createTestNotification(String receiverId) {
     return createTestNotification(receiverId, UUID.randomUUID().toString(), "test-post",
-        "test-liker");
+        "test-liker", "test-nickname", "https://test.com/profile.jpg");
   }
 
   /**
@@ -54,7 +54,16 @@ public class BaseNotificationApiTest extends BaseApiTest {
    */
   public NotificationEntity createTestNotification(String receiverId, String eventId, String postId,
       String likerId) {
+    return createTestNotification(receiverId, eventId, postId, likerId, "test-nickname", "https://test.com/profile.jpg");
+  }
+
+  /**
+   * 테스트용 알림 엔티티 생성 (전체 설정)
+   */
+  public NotificationEntity createTestNotification(String receiverId, String eventId, String postId,
+      String likerId, String nickname, String profileImageUrl) {
     PostLikeMeta metadata = new PostLikeMeta(postId, likerId);
+    ActorProfile actorProfile = new ActorProfile(likerId, nickname, profileImageUrl);
 
     return new NotificationEntity(
         eventId,
@@ -62,7 +71,7 @@ public class BaseNotificationApiTest extends BaseApiTest {
         NotificationType.POST_LIKE,
         metadata,
         LocalDateTime.now(),
-//        new ActorProfile()
+        actorProfile
     );
   }
 
