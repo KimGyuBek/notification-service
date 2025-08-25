@@ -8,4 +8,7 @@ dependencies {
     
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
+
 }

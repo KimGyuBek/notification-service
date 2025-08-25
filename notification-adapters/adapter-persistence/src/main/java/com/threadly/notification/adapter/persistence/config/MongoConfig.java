@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories(basePackages = "com.threadly.notification.adapter.persistence.repository")
+@EnableMongoRepositories(basePackages = "com.threadly.notification.adapter.persistence.notification.repository")
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
   @Value("${spring.data.mongodb.uri}")

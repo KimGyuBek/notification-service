@@ -1,13 +1,13 @@
 spring:
   cloud:
     function:
-      definition: like;
+      definition: notification;
     stream:
       binder:
         brokers: localhost:9092
       bindings:
-        like-in-0:
-          destination: like
+        notification-in-0:
+          destination: notification
           content-type: application/json
           group: notification-consumer
           consumer.max-attempts: 2
