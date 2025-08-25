@@ -1,3 +1,11 @@
 spring:
   config:
-    import: classpath:application-kafka.yml
+    import: 
+      - classpath:application-kafka.yml
+      - classpath:application-persistence.yml
+
+# 로깅 설정 (개발 환경)
+logging:
+  level:
+    com.threadly.notification: DEBUG
+    org.apache.kafka: WARN
