@@ -20,7 +20,7 @@ public class NotificationQueryQueryService implements NotificationQueryUseCase {
   private final NotificationQueryPort notificationQueryPort;
 
   @Override
-  public GetNotificationDetailsApiResponse getNotificationDetail(String userId,
+  public GetNotificationDetailsApiResponse findNotificationDetail(String userId,
       String eventId) {
 
     if (eventId.equals("")) {
@@ -28,7 +28,7 @@ public class NotificationQueryQueryService implements NotificationQueryUseCase {
     }
 
     /*Notification 조회*/
-    Notification notification = notificationQueryPort.fetchNotificationDetails(eventId).orElseThrow(
+    Notification notification = notificationQueryPort.fetchByEventId(eventId).orElseThrow(
         () -> new NotificationException(ErrorCode.NOTIFICATION_NOT_FOUND)
     );
 
@@ -49,9 +49,9 @@ public class NotificationQueryQueryService implements NotificationQueryUseCase {
   }
 
   @Override
-  public CursorPageApiResponse<NotificationDetails> getNotificationsByCursor(GetNotificationsQuery query) {
+  public CursorPageApiResponse<NotificationDetails> findNotificationByCursor(GetNotificationsQuery query) {
 
-    List<NotificationDetails> notifications = notificationQueryPort.fetchNotificationsByCursor(query);
+    List<NotificationDetails> notifications = notificationQueryPort.fetchAllByCursor(query);
 
     return CursorPageApiResponse.from(notifications, query.limit());
   }

@@ -38,6 +38,13 @@ public class Notification {
   }
 
   /**
+   * 알림 데이터 읽음 처리
+   */
+  public void markAsRead() {
+    isRead = true;
+  }
+
+  /**
    * 행위자 프로필
    *
    * @param userId

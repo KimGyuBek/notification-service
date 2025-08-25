@@ -40,24 +40,44 @@ public class NotificationCommandService implements NotificationCommandUseCase {
         metadataMapper.toTypeMeta(command.notificationType(), command.metadata())
     );
 
-    notificationCommandPort.saveNotification(notification);
+    notificationCommandPort.save(notification);
 
     /*알림*/
   }
 
   @Override
-  public void deleteNotificationByEventIdAndUserId(String eventId, String userId) {
+  public void removeNotification(String eventId, String userId) {
     /*eventId, receiverId에 해당하는 알림이 있는지 조회*/
-    if (!notificationQueryPort.existsNotificationByEventIdAndReceiverId(eventId, userId)) {
+    if (!notificationQueryPort.existsByEventIdAndReceiverId(eventId, userId)) {
       throw new NotificationException(ErrorCode.NOTIFICATION_NOT_FOUND);
     }
 
     /*삭제 처리*/
-    notificationCommandPort.deleteNotificationByEventId(eventId);
+    notificationCommandPort.deleteByEventId(eventId);
   }
 
   @Override
-  public void deleteAllNotificationByUserId(String userId) {
-    notificationCommandPort.deleteAllNotifications(userId);
+  public void clearNotifications(String userId) {
+    notificationCommandPort.deleteAllByReceiverId(userId);
+  }
+
+  @Override
+  public void markNotificationAsRead(String eventId, String userId) {
+
+    /*notification 조회*/
+    Notification notification = notificationQueryPort.fetchByEventIdAndReceiverId(eventId, userId)
+        .orElseThrow(() ->
+            new NotificationException(ErrorCode.NOTIFICATION_NOT_FOUND));
+
+    /*읽음 처리*/
+    notification.markAsRead();
+
+    /*업데이트*/
+    notificationCommandPort.markAsRead(notification);
+  }
+
+  @Override
+  public void markAllNotificationsAsRead(String userId) {
+    notificationCommandPort.markAllAsRead(userId);
   }
 }

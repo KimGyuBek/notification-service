@@ -2,7 +2,7 @@ package com.threadly.notification.adapter.persistence.notification.adapter;
 
 import com.threadly.notification.adapter.persistence.notification.mapper.NotificationMapper;
 import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
-import com.threadly.notification.adapter.persistence.notification.repository.NotificationCursorRepository;
+import com.threadly.notification.adapter.persistence.notification.repository.NotificationCustomRepository;
 import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
 import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
@@ -22,15 +22,15 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
     NotificationQueryPort {
 
   private final MongoNotificationRepository mongoNotificationRepository;
-  private final NotificationCursorRepository notificationCursorRepository;
+  private final NotificationCustomRepository notificationCustomRepository;
 
   @Override
-  public void saveNotification(Notification notification) {
+  public void save(Notification notification) {
     mongoNotificationRepository.save(NotificationMapper.toEntity(notification));
   }
 
   @Override
-  public Optional<Notification> fetchNotificationDetails(String eventId) {
+  public Optional<Notification> fetchByEventId(String eventId) {
     return
         mongoNotificationRepository.findById(eventId).map(
             NotificationMapper::toDomain
@@ -38,31 +38,49 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
   }
 
   @Override
-  public List<NotificationDetails> fetchNotificationsByCursor(GetNotificationsQuery query) {
-    return notificationCursorRepository.findNotificationsByCursor(query).stream().map(
+  public List<NotificationDetails> fetchAllByCursor(GetNotificationsQuery query) {
+    return notificationCustomRepository.findNotificationsByCursor(query).stream().map(
         entity -> new NotificationDetails(
             entity.getEventId(),
             entity.getReceiverId(),
             entity.getNotificationType(),
             entity.getOccurredAt(),
-            entity.getActorProfile()
+            entity.getActorProfile(),
+            entity.isRead()
         )
     ).collect(Collectors.toList());
   }
 
   @Override
-  public void deleteNotificationByEventId(String eventId) {
+  public void deleteByEventId(String eventId) {
     mongoNotificationRepository.deleteById(eventId);
   }
 
   @Override
-  public boolean existsNotificationByEventIdAndReceiverId(String eventId, String receiverId) {
+  public boolean existsByEventIdAndReceiverId(String eventId, String receiverId) {
     return
         mongoNotificationRepository.existsByEventIdAndReceiverId(eventId, receiverId);
   }
 
   @Override
-  public void deleteAllNotifications(String receiverId) {
+  public void deleteAllByReceiverId(String receiverId) {
     mongoNotificationRepository.deleteAllByReceiverId(receiverId);
+  }
+
+  @Override
+  public Optional<Notification> fetchByEventIdAndReceiverId(String eventId, String receiverId) {
+    return mongoNotificationRepository.findByEventIdAndReceiverId(eventId, receiverId)
+        .map(NotificationMapper::toDomain);
+  }
+
+  @Override
+  public void markAsRead(Notification notification) {
+    notificationCustomRepository.updateIsReadByEventId(notification.getEventId(),
+        notification.isRead());
+  }
+
+  @Override
+  public void markAllAsRead(String receiverId) {
+    notificationCustomRepository.updateAllIsReadByReceiverId(receiverId);
   }
 }

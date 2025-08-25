@@ -14,7 +14,7 @@ public interface NotificationQueryUseCase {
    *
    * @return
    */
-  GetNotificationDetailsApiResponse getNotificationDetail(String receiverId, String eventId);
+  GetNotificationDetailsApiResponse findNotificationDetail(String receiverId, String eventId);
 
   /**
    * Notification 목록 커서 기반 조회
@@ -22,7 +22,6 @@ public interface NotificationQueryUseCase {
    * @param query
    * @return
    */
-  CursorPageApiResponse getNotificationsByCursor(GetNotificationsQuery query);
-
+  CursorPageApiResponse findNotificationByCursor(GetNotificationsQuery query);
 
 }

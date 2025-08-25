@@ -12,17 +12,29 @@ public interface NotificationCommandPort {
    *
    * @param notification
    */
-  void saveNotification(Notification notification);
+  void save(Notification notification);
 
   /**
    * 주어진 eventId에 해당하는 알림 데이터 삭제
    * @param eventId
    */
-  void deleteNotificationByEventId(String eventId);
+  void deleteByEventId(String eventId);
 
   /**
    * 주어진 receiverId에 해당하는 사용자의 알림 데이터 전체 삭제
    * @param receiverId
    */
-  void deleteAllNotifications(String receiverId);
+  void deleteAllByReceiverId(String receiverId);
+
+  /**
+   * 주어진 eventId에 해당하는 데이터 읽음 처리
+   * @param notification
+   */
+  void markAsRead(Notification notification);
+
+  /**
+   * 주어진 receiverId에 해당하는 데이터들을 읽음 처리
+   * @param receiverId
+   */
+  void markAllAsRead(String receiverId);
 }

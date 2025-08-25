@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,9 +17,32 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class NotificationCursorRepository {
+public class NotificationCustomRepository {
 
   private final MongoTemplate mongoTemplate;
+
+  /**
+   * 주어진 eventId에 해당하는 알림 데이터릐 isRead 업데이트
+   *
+   * @param eventId
+   * @param isRead
+   */
+  public void updateIsReadByEventId(String eventId, boolean isRead) {
+    Query query = new Query(Criteria.where("eventId").is(eventId));
+    Update update = new Update().set("isRead", isRead);
+    mongoTemplate.updateFirst(query, update, NotificationEntity.class);
+  }
+
+  /**
+   * 주어진 receiverId에 해당하는 알림 데이터 읽음 처리
+   *
+   * @param receiverId
+   */
+  public void updateAllIsReadByReceiverId(String receiverId) {
+    Query query = new Query(Criteria.where("receiverId").is(receiverId));
+    Update update = new Update().set("isRead", true);
+    mongoTemplate.updateMulti(query, update, NotificationEntity.class);
+  }
 
   /**
    * 알림 목록 커서 기반 조회

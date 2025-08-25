@@ -122,6 +122,43 @@ public class BaseNotificationApiTest extends BaseApiTest {
   }
 
   /**
+   * 알림 읽음 처리 요청
+   *
+   * @return
+   */
+  public CommonResponse<Void> markAsReadNotificationRequest(
+      String accessToken,
+      String eventId,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    return sendPatchRequest(
+        accessToken,
+        "/api/notifications/" + eventId + "/read",
+        expectedStatus,
+        new TypeReference<>() { },
+        Map.of("Authorization", "Bearer " + accessToken)
+    );
+  }
+
+  /**
+   * 전체 알림 읽음 처리 요청
+   *
+   * @return
+   */
+  public CommonResponse<Void> markAllAsReadNotificationsRequest(
+      String accessToken,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    return sendPatchRequest(
+        accessToken,
+        "/api/notifications/read-all",
+        expectedStatus,
+        new TypeReference<>() { },
+        Map.of("Authorization", "Bearer " + accessToken)
+    );
+  }
+
+  /**
    * 테스트용 알림 엔티티 생성 (기본값)
    */
   public NotificationEntity createTestNotification(String receiverId) {

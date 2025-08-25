@@ -44,7 +44,7 @@ public class NotificationController {
       @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
     return ResponseEntity.ok().body(
-        notificationQueryUseCase.getNotificationsByCursor(
+        notificationQueryUseCase.findNotificationByCursor(
             new GetNotificationsQuery(
                 user.getUserId(), cursorTimestamp, cursorId, limit)
         )
@@ -63,7 +63,7 @@ public class NotificationController {
       @PathVariable String eventId
   ) {
     return ResponseEntity.ok().body(
-        notificationQueryUseCase.getNotificationDetail(
+        notificationQueryUseCase.findNotificationDetail(
             user.getUserId(), eventId)
     );
   }
@@ -74,8 +74,11 @@ public class NotificationController {
    * @return
    */
   @PatchMapping("/{eventId}/read")
-  public ResponseEntity<Void> markAsRead() {
-
+  public ResponseEntity<Void> markAsRead(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @PathVariable String eventId
+  ) {
+    notificationCommandUseCase.markNotificationAsRead(eventId, user.getUserId());
     return ResponseEntity.ok().build();
   }
 
@@ -85,7 +88,10 @@ public class NotificationController {
    * @return
    */
   @PatchMapping("/read-all")
-  public ResponseEntity<Void> markAllAsRead() {
+  public ResponseEntity<Void> markAllAsRead(
+      @AuthenticationPrincipal JwtAuthenticationUser user
+  ) {
+    notificationCommandUseCase.markAllNotificationsAsRead(user.getUserId());
     return ResponseEntity.ok().build();
   }
 
@@ -99,7 +105,7 @@ public class NotificationController {
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String eventId
   ) {
-    notificationCommandUseCase.deleteNotificationByEventIdAndUserId(eventId, user.getUserId());
+    notificationCommandUseCase.removeNotification(eventId, user.getUserId());
     return ResponseEntity.ok().build();
   }
 
@@ -112,7 +118,7 @@ public class NotificationController {
   public ResponseEntity<Void> deleteAllNotifications(
       @AuthenticationPrincipal JwtAuthenticationUser user
   ) {
-    notificationCommandUseCase.deleteAllNotificationByUserId(user.getUserId());
+    notificationCommandUseCase.clearNotifications(user.getUserId());
     return ResponseEntity.ok().build();
   }
 

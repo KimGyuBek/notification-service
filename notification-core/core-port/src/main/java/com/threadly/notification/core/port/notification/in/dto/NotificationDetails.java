@@ -13,7 +13,8 @@ public record NotificationDetails(
     String receiverId,
     NotificationType notificationType,
     LocalDateTime occurredAt,
-    ActorProfile actorProfile
+    ActorProfile actorProfile,
+    boolean isRead
 ) implements CursorSupport {
 
   @Override
