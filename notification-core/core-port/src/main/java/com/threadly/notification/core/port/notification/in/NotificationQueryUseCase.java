@@ -7,7 +7,7 @@ import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQ
 /**
  * Notification 조회 관련 usecase
  */
-public interface FetchNotificationUseCase {
+public interface NotificationQueryUseCase {
 
   /**
    * 주어진 eventId에 해당하는 알림 상세 조회

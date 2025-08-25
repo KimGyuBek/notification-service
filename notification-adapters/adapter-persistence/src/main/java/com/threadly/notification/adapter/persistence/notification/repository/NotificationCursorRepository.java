@@ -20,6 +20,12 @@ public class NotificationCursorRepository {
 
   private final MongoTemplate mongoTemplate;
 
+  /**
+   * 알림 목록 커서 기반 조회
+   *
+   * @param getNotificationsQuery
+   * @return
+   */
   public List<NotificationEntity> findNotificationsByCursor(
       GetNotificationsQuery getNotificationsQuery) {
     Query query = new Query();
@@ -27,7 +33,8 @@ public class NotificationCursorRepository {
     query.addCriteria(Criteria.where("receiverId").is(getNotificationsQuery.userId()));
 
     // 커서 기반 페이징: createdAt과 _id를 함께 사용
-    if (getNotificationsQuery.cursorTimestamp() != null && getNotificationsQuery.cursorId() != null) {
+    if (getNotificationsQuery.cursorTimestamp() != null
+        && getNotificationsQuery.cursorId() != null) {
       Criteria cursorCriteria = new Criteria().orOperator(
           // createdAt이 커서보다 작거나
           Criteria.where("occurredAt").lt(getNotificationsQuery.cursorTimestamp()),

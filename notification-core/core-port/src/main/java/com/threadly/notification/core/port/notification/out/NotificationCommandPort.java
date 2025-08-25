@@ -14,4 +14,9 @@ public interface NotificationCommandPort {
    */
   void saveNotification(Notification notification);
 
+  /**
+   * 주어진 eventId에 해당하는 알림 데이터 삭제
+   * @param eventId
+   */
+  void deleteNotificationByEventId(String eventId);
 }

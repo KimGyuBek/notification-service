@@ -7,6 +7,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MongoNotificationRepository extends MongoRepository<NotificationEntity, String> {
 
+  /**
+   * 주어진 eventId, receiverId에 해당하는 데이터가 있는지 조회
+   *
+   * @param eventId
+   * @param receiverId
+   * @return
+   */
+  boolean existsByEventIdAndReceiverId(String eventId, String receiverId);
 
 //  // 사용자별 알림 조회
 //  List<NotificationEntity> findByUserId(String userId);

@@ -4,7 +4,7 @@ import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.exception.notification.NotificationException;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.domain.notification.Notification;
-import com.threadly.notification.core.port.notification.in.FetchNotificationUseCase;
+import com.threadly.notification.core.port.notification.in.NotificationQueryUseCase;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
 import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationQueryService implements FetchNotificationUseCase {
+public class NotificationQueryQueryService implements NotificationQueryUseCase {
 
   private final NotificationQueryPort notificationQueryPort;
 

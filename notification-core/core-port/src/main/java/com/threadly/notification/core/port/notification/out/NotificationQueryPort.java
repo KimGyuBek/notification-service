@@ -27,4 +27,11 @@ public interface NotificationQueryPort {
    * @return
    */
   List<NotificationDetails> fetchNotificationsByCursor(GetNotificationsQuery query);
+
+  /**
+   * 주어진 eventId에 해당하는 알림 데이터가 존재하는지 검증
+   * @param eventId
+   * @return
+   */
+  boolean existsNotificationByEventIdAndReceiverId(String eventId, String receiverId);
 }

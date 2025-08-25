@@ -49,4 +49,15 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
         )
     ).collect(Collectors.toList());
   }
+
+  @Override
+  public void deleteNotificationByEventId(String eventId) {
+    mongoNotificationRepository.deleteById(eventId);
+  }
+
+  @Override
+  public boolean existsNotificationByEventIdAndReceiverId(String eventId, String receiverId) {
+    return
+        mongoNotificationRepository.existsByEventIdAndReceiverId(eventId, receiverId);
+  }
 }
