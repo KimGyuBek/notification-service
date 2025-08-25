@@ -1,6 +1,6 @@
 package com.threadly.notification.adapter.kafka.notification;
 
-import com.threadly.notification.core.port.post.like.in.NotificationCommand;
+import com.threadly.notification.core.port.notification.in.NotificationCommand;
 
 public class NotificationMapper {
 

@@ -3,7 +3,7 @@ package com.threadly.notification.adapter.persistence.notification.adapter;
 import com.threadly.notification.adapter.persistence.notification.mapper.NotificationMapper;
 import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
 import com.threadly.notification.core.domain.notification.Notification;
-import com.threadly.notification.core.port.post.like.out.NotificationCommandPort;
+import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

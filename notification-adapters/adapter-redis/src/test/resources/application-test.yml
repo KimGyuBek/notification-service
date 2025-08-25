@@ -1,0 +1,10 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6380
+
+logging:
+  level:
+    com.threadly.notification.adapter.redis: DEBUG
+    org.springframework.data.redis: DEBUG
