@@ -63,7 +63,6 @@ public class NotificationEntity {
   @Field("modified_at")
   private LocalDateTime modifiedAt;
 
-
   public NotificationEntity(String eventId, String receiverId, NotificationType notificationType,
       NotificationMetaData metadata, LocalDateTime occurredAt
   ) {
@@ -73,5 +72,8 @@ public class NotificationEntity {
     this.occurredAt = occurredAt;
     this.isRead = false;
     this.metadata = metadata;
+  }
+
+  public NotificationEntity() {
   }
 }

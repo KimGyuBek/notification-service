@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MongoNotificationRepository extends MongoRepository<NotificationEntity, String> {
 
+
 //  // 사용자별 알림 조회
 //  List<NotificationEntity> findByUserId(String userId);
 //

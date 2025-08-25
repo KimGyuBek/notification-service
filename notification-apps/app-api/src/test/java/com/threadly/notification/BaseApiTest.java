@@ -85,7 +85,7 @@ public class BaseApiTest {
       throws Exception {
     return
         sendGetRequest(
-            accessToken, "/api/notification/test", expectedStatus, new TypeReference<>() {
+            accessToken, "/api/notifications/test", expectedStatus, new TypeReference<>() {
             }
         );
   }

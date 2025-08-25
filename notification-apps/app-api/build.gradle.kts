@@ -13,12 +13,14 @@ dependencies {
     implementation("org.springframework:spring-tx")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
 
     testImplementation("io.jsonwebtoken:jjwt-api")
     testImplementation("io.jsonwebtoken:jjwt-impl")
     testImplementation("io.jsonwebtoken:jjwt-jackson")
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-redis")
-
+    testImplementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 
 }

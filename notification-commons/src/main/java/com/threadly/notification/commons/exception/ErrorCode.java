@@ -119,7 +119,16 @@ public enum ErrorCode {
   POST_IMAGE_UPLOAD_FORBIDDEN("TLY4105", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
   /*UserProfileImage*/
-  USER_PROFILE_IMAGE_NOT_EXISTS("TLY4200", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND);
+  USER_PROFILE_IMAGE_NOT_EXISTS("TLY4200", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND),
+
+  /*Notification*/
+  NOTIFICATION_NOT_FOUND("TLY5000", "존재하지 않는 알림입니다.", HttpStatus.NOT_FOUND),
+  NOTIFICATION_ACCESS_FORBIDDEN("TLY5001", "알림 조회 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  NOTIFICATION_ALREADY_READ("TLY5002", "이미 읽은 알림입니다.", HttpStatus.BAD_REQUEST),
+  NOTIFICATION_ALREADY_DELETED("TLY5003", "이미 삭제된 알림입니다.", HttpStatus.BAD_REQUEST),
+  NOTIFICATION_DELETE_FORBIDDEN("TLY5004", "알림 삭제 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  NOTIFICATION_INVALID_STATUS("TLY5005", "유효하지 않은 알림 상태입니다.", HttpStatus.BAD_REQUEST);
+
 
 
   private final String code;
