@@ -17,4 +17,10 @@ public interface NotificationCommandUseCase {
    */
   void deleteNotificationByEventIdAndUserId(String eventId, String userId);
 
+  /**
+   * 주어진 userId에 해당하는 사용자의 알림 데이터 전체 삭제
+   * @param userId
+   */
+  void deleteAllNotificationByUserId(String userId);
+
 }

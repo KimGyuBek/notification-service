@@ -48,11 +48,16 @@ public class NotificationCommandService implements NotificationCommandUseCase {
   @Override
   public void deleteNotificationByEventIdAndUserId(String eventId, String userId) {
     /*eventId, receiverId에 해당하는 알림이 있는지 조회*/
-    if(!notificationQueryPort.existsNotificationByEventIdAndReceiverId(eventId, userId)) {
+    if (!notificationQueryPort.existsNotificationByEventIdAndReceiverId(eventId, userId)) {
       throw new NotificationException(ErrorCode.NOTIFICATION_NOT_FOUND);
     }
 
     /*삭제 처리*/
     notificationCommandPort.deleteNotificationByEventId(eventId);
+  }
+
+  @Override
+  public void deleteAllNotificationByUserId(String userId) {
+    notificationCommandPort.deleteAllNotifications(userId);
   }
 }

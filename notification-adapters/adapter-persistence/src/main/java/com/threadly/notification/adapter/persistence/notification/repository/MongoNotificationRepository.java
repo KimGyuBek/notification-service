@@ -16,6 +16,12 @@ public interface MongoNotificationRepository extends MongoRepository<Notificatio
    */
   boolean existsByEventIdAndReceiverId(String eventId, String receiverId);
 
+  /**
+   * 주어진 receiverId에 해당하는 사용자의 데이터 전체 삭제
+   * @param receiverId
+   */
+  void deleteAllByReceiverId(String receiverId);
+
 //  // 사용자별 알림 조회
 //  List<NotificationEntity> findByUserId(String userId);
 //

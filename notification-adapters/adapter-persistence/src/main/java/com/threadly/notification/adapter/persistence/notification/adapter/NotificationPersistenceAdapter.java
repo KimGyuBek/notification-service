@@ -60,4 +60,9 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
     return
         mongoNotificationRepository.existsByEventIdAndReceiverId(eventId, receiverId);
   }
+
+  @Override
+  public void deleteAllNotifications(String receiverId) {
+    mongoNotificationRepository.deleteAllByReceiverId(receiverId);
+  }
 }

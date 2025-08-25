@@ -19,4 +19,10 @@ public interface NotificationCommandPort {
    * @param eventId
    */
   void deleteNotificationByEventId(String eventId);
+
+  /**
+   * 주어진 receiverId에 해당하는 사용자의 알림 데이터 전체 삭제
+   * @param receiverId
+   */
+  void deleteAllNotifications(String receiverId);
 }

@@ -89,7 +89,6 @@ public class NotificationController {
     return ResponseEntity.ok().build();
   }
 
-
   /**
    * 주어진 eventId에 해당하는 알림 삭제
    *
@@ -110,8 +109,10 @@ public class NotificationController {
    * @return
    */
   @DeleteMapping("")
-  public ResponseEntity<Void> deleteAllNotifications() {
-
+  public ResponseEntity<Void> deleteAllNotifications(
+      @AuthenticationPrincipal JwtAuthenticationUser user
+  ) {
+    notificationCommandUseCase.deleteAllNotificationByUserId(user.getUserId());
     return ResponseEntity.ok().build();
   }
 

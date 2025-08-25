@@ -103,6 +103,25 @@ public class BaseNotificationApiTest extends BaseApiTest {
   }
 
   /**
+   * 전체 알림 삭제 요청
+   *
+   * @return
+   */
+  public CommonResponse<Void> deleteAllNotificationsRequest(
+      String accessToken,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    return sendDeleteRequest(
+        accessToken,
+        "/api/notifications",
+        expectedStatus,
+        new TypeReference<>() {
+        },
+        Map.of("Authorization", "Bearer " + accessToken)
+    );
+  }
+
+  /**
    * 테스트용 알림 엔티티 생성 (기본값)
    */
   public NotificationEntity createTestNotification(String receiverId) {
