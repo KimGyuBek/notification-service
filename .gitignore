@@ -37,3 +37,4 @@ out/
 .vscode/
 
 infra/docker-volumes/
+docs/

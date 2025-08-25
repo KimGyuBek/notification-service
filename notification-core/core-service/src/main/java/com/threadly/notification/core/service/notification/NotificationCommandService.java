@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class NotificationCommandCommandService implements NotificationCommandUseCase {
+public class NotificationCommandService implements NotificationCommandUseCase {
 
   private final NotificationCommandPort notificationCommandPort;
 
