@@ -1,0 +1,53 @@
+#DEV
+services:
+  mongodb:
+    container_name: mongodb-test
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/notification-service/infra/docker-volumes/mongo-test/data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=notification
+      - MONGO_INITDB_ROOT_PASSWORD=notification
+    command: mongod --bind_ip_all
+
+  redis-test:
+    container_name: threadly-redis-test
+    image: redis:latest
+    command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/redis/data:/data
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/redis:/var/log
+    ports:
+      - "6380:6379"
+
+  zookeeper:
+    container_name: zookeeper-dev
+    image: confluentinc/cp-zookeeper:7.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+    networks:
+      - kafka-network
+
+  kafka:
+    container_name: kafka-dev
+    image: confluentinc/cp-kafka:7.4.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - kafka-network
+
+networks:
+  kafka-network:
+    external: true
