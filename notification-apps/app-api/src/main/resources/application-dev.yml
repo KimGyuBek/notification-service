@@ -4,7 +4,6 @@ spring:
       - classpath:application-kafka.yml
       - classpath:application-persistence.yml
 
-# 로깅 설정 (개발 환경)
 logging:
   level:
     com.threadly.notification: DEBUG

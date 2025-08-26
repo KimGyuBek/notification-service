@@ -122,15 +122,6 @@ public class NotificationController {
     return ResponseEntity.ok().build();
   }
 
-  /**
-   * test
-   *
-   * @return
-   */
-  @GetMapping("/test")
-  public ResponseEntity<Void> test() {
-    return ResponseEntity.ok().build();
-  }
 
 
 }
