@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: ./notification-apps/app-api/build/reports/tests/test
+          path: ./build/reports/problems
 
       - name: Docker compose 종료
         if: always()
