@@ -6,8 +6,6 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/notification-service/infra/docker-volumes/mongo-test/data:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=notification
       - MONGO_INITDB_ROOT_PASSWORD=notification
@@ -16,10 +14,6 @@ services:
   redis:
     container_name: redis-test
     image: redis:latest
-    command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
-    volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/redis/data:/data
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/redis:/var/log
     ports:
       - "6380:6379"
 
