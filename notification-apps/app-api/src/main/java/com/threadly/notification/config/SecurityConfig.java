@@ -30,10 +30,6 @@ public class SecurityConfig {
     return http.build();
   }
 
-//  @Bean public PasswordEncoder passwordEncoder() {
-//    return new BCryptPasswordEncoder();
-//  }
-
   /**
    * 예외 핸들링 설정
    *
@@ -66,6 +62,7 @@ public class SecurityConfig {
   private static void configureAuthorization(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(
         auth -> auth
+            .requestMatchers("/api/test/kafka").permitAll()
             .anyRequest().authenticated()
     );
   }

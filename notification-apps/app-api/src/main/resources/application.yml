@@ -8,3 +8,5 @@ spring:
   # Profile 설정
   profiles:
     active: dev
+server:
+  port: 8081

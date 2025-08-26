@@ -34,7 +34,7 @@ class SecurityApiTest extends BaseApiTest {
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
 
-  private static final String API_URL = "/api/notifications/test";
+  private static final String API_URL = "/api/test/authentication";
   private static final String VALID_USER_ID = "user123";
   private static final String USER_TYPE = "USER";
   private static final String USER_STATUS_TYPE = "ACTIVE";

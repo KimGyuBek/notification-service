@@ -33,6 +33,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final AuthManager authManager;
 
   @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    return
+        FilterBypassMatcher.shouldBypass(request.getRequestURI());
+  }
+
+  @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     try {
