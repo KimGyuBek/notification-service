@@ -13,8 +13,8 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=notification
     command: mongod --bind_ip_all
 
-  redis-test:
-    container_name: threadly-redis-test
+  redis:
+    container_name: redis-test
     image: redis:latest
     command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
     volumes:
@@ -24,7 +24,7 @@ services:
       - "6380:6379"
 
   zookeeper:
-    container_name: zookeeper-dev
+    container_name: zookeeper-test
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -32,7 +32,7 @@ services:
       - "2181:2181"
 
   kafka:
-    container_name: kafka-dev
+    container_name: kafka-test
     image: confluentinc/cp-kafka:7.4.0
     depends_on:
       - zookeeper
