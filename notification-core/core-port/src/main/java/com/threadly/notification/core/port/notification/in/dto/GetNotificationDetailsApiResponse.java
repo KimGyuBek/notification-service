@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
+import com.threadly.notification.core.domain.notification.metadata.FollowAcceptMeta;
+import com.threadly.notification.core.domain.notification.metadata.FollowMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowRequestMeta;
 import com.threadly.notification.core.domain.notification.metadata.NotificationMetaData;
 import com.threadly.notification.core.domain.notification.metadata.PostCommentMeta;
@@ -29,9 +31,11 @@ public record GetNotificationDetailsApiResponse(
     )
     @JsonSubTypes({
         @JsonSubTypes.Type(value = PostLikeMeta.class, name = "POST_LIKE"),
-        @JsonSubTypes.Type(value = PostCommentMeta.class, name = "POST_COMMENT"),
+        @JsonSubTypes.Type(value = PostCommentMeta.class, name = "COMMENT_ADDED"),
         @JsonSubTypes.Type(value = CommentLikeMeta.class, name = "COMMENT_LIKE"),
-        @JsonSubTypes.Type(value = FollowRequestMeta.class, name = "FOLLOW_REQUEST")
+        @JsonSubTypes.Type(value = FollowRequestMeta.class, name = "FOLLOW_REQUEST"),
+        @JsonSubTypes.Type(value = FollowMeta.class, name = "FOLLOW"),
+        @JsonSubTypes.Type(value = FollowAcceptMeta.class, name = "FOLLOW_ACCEPT")
     })
     NotificationMetaData metaData
 ) {

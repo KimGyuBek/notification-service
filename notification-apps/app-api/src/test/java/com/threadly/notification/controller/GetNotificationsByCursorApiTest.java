@@ -233,7 +233,7 @@ public class GetNotificationsByCursorApiTest extends BaseNotificationApiTest {
     String customProfileUrl = "https://test.com/custom.jpg";
 
     NotificationEntity notification = createTestNotification(VALID_USER_ID, "test-event",
-        "test-post", "test-liker", customNickname, customProfileUrl);
+        "test-post", "test-actor-user", customNickname, customProfileUrl);
     notificationRepository.save(notification);
 
     // when

@@ -221,7 +221,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     String testEventId = "persistent-test-event";
     NotificationEntity notification = createTestNotification(VALID_USER_ID, testEventId,
-        "test-post", "test-liker", "test-nickname", "https://test.com/profile.jpg");
+        "test-post", "test-actor-user", "test-nickname", "https://test.com/profile.jpg");
     notificationRepository.save(notification);
 
     // when

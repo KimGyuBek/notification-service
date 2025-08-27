@@ -6,7 +6,8 @@
       "Bash(docker exec:*)",
       "Bash(docker logs:*)",
       "Bash(./gradlew test:*)",
-      "Bash(./gradlew:*)"
+      "Bash(./gradlew:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

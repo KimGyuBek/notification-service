@@ -229,7 +229,7 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     String testEventId = "test-event-for-complete-removal";
     NotificationEntity notification = createTestNotification(VALID_USER_ID, testEventId,
-        "test-post", "test-liker", "test-nickname", "https://test.com/profile.jpg");
+        "test-post", "test-actor-user", "test-nickname", "https://test.com/profile.jpg");
     notificationRepository.save(notification);
 
     // 삭제 전 데이터 존재 확인

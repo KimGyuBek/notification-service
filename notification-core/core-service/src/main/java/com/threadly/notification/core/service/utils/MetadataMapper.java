@@ -3,6 +3,8 @@ package com.threadly.notification.core.service.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
+import com.threadly.notification.core.domain.notification.metadata.FollowAcceptMeta;
+import com.threadly.notification.core.domain.notification.metadata.FollowMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowRequestMeta;
 import com.threadly.notification.core.domain.notification.metadata.NotificationMetaData;
 import com.threadly.notification.core.domain.notification.metadata.PostCommentMeta;
@@ -30,6 +32,8 @@ public class MetadataMapper {
       case COMMENT_ADDED -> PostCommentMeta.class;
       case COMMENT_LIKE -> CommentLikeMeta.class;
       case FOLLOW_REQUEST -> FollowRequestMeta.class;
+      case FOLLOW_ACCEPT -> FollowAcceptMeta.class;
+      case FOLLOW -> FollowMeta.class;
     };
     return objectMapper.convertValue(raw, clazz);
   }
