@@ -6,25 +6,19 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/notification-service/infra/docker-volumes/mongo-test/data:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=notification
       - MONGO_INITDB_ROOT_PASSWORD=notification
     command: mongod --bind_ip_all
 
-  redis-test:
-    container_name: threadly-redis-test
+  redis:
+    container_name: redis-test
     image: redis:latest
-    command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
-    volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/redis/data:/data
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/redis:/var/log
     ports:
       - "6380:6379"
 
   zookeeper:
-    container_name: zookeeper-dev
+    container_name: zookeeper-test
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -32,7 +26,7 @@ services:
       - "2181:2181"
 
   kafka:
-    container_name: kafka-dev
+    container_name: kafka-test
     image: confluentinc/cp-kafka:7.4.0
     depends_on:
       - zookeeper
