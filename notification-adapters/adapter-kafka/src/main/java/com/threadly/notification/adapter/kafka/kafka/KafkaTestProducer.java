@@ -6,7 +6,6 @@ import com.threadly.notification.core.port.test.out.KafkaTestPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,11 +29,11 @@ public class KafkaTestProducer implements KafkaTestPort {
         notificationCommand.actorProfile(),
         notificationCommand.metadata()
     );
-    
+
     log.info("Sending notification event: {}", event);
-    
+
     // Kafka로 이벤트 전송
-    kafkaTemplate.send("notification", event)
+    kafkaTemplate.send("notification", event.getReceiverUserId(), event)
         .whenComplete((result, ex) -> {
           if (ex == null) {
             log.info("Successfully sent notification event: {}", event.getEventId());
