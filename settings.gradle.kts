@@ -18,6 +18,7 @@ pluginManagement {
     include("notification-adapters:adapter-redis")
     include("notification-adapters:adapter-persistence")
     include("notification-adapters:adapter-kafka")
+    include("notification-adapters:adapter-smtp")
 
     include("notification-apps:app-api")
 
