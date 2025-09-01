@@ -163,15 +163,15 @@ public class BaseNotificationApiTest extends BaseApiTest {
    */
   public NotificationEntity createTestNotification(String receiverId) {
     return createTestNotification(receiverId, UUID.randomUUID().toString(), "test-post",
-        "test-liker", "test-nickname", "https://test.com/profile.jpg");
+        "test-actor-user", "test-nickname", "https://test.com/profile.jpg");
   }
 
   /**
    * 테스트용 알림 엔티티 생성 (상세 설정)
    */
   public NotificationEntity createTestNotification(String receiverId, String eventId, String postId,
-      String likerId) {
-    return createTestNotification(receiverId, eventId, postId, likerId, "test-nickname",
+      String actorUserId) {
+    return createTestNotification(receiverId, eventId, postId, actorUserId, "test-nickname",
         "https://test.com/profile.jpg");
   }
 
@@ -179,9 +179,9 @@ public class BaseNotificationApiTest extends BaseApiTest {
    * 테스트용 알림 엔티티 생성 (전체 설정)
    */
   public NotificationEntity createTestNotification(String receiverId, String eventId, String postId,
-      String likerId, String nickname, String profileImageUrl) {
-    PostLikeMeta metadata = new PostLikeMeta(postId, likerId);
-    ActorProfile actorProfile = new ActorProfile(likerId, nickname, profileImageUrl);
+      String actorUserId, String nickname, String profileImageUrl) {
+    PostLikeMeta metadata = new PostLikeMeta(postId);
+    ActorProfile actorProfile = new ActorProfile(actorUserId, nickname, profileImageUrl);
 
     return new NotificationEntity(
         eventId,

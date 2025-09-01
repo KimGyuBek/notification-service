@@ -59,7 +59,7 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals("test-liker");
+    assert actorProfile.userId().equals("test-actor-user");
     assert actorProfile.nickname().equals("test-nickname");
     assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
   }
@@ -187,7 +187,7 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     assert data.eventId().equals("event2");
     PostLikeMeta metadata = (PostLikeMeta) data.metaData();
     assert metadata.postId().equals("post2");
-    assert metadata.likerId().equals("liker2");
+    assert data.actorProfile().userId().equals("liker2");
     
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
@@ -223,7 +223,7 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals("test-liker");
+    assert actorProfile.userId().equals("test-actor-user");
     assert actorProfile.nickname().equals("test-nickname");
     assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
   }
@@ -252,7 +252,7 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     GetNotificationDetailsApiResponse data = response.getData();
     PostLikeMeta metadata = (PostLikeMeta) data.metaData();
     assert metadata.postId().equals(testPostId);
-    assert metadata.likerId().equals(testLikerId);
+    assert data.actorProfile().userId().equals(testLikerId);
     
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
@@ -302,7 +302,7 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     
     // ActorProfile이 null인 알림 생성
-    PostLikeMeta metadata = new PostLikeMeta("test-post", "test-liker");
+    PostLikeMeta metadata = new PostLikeMeta("test-post");
     NotificationEntity notification = new NotificationEntity(
         "null-profile-event",
         VALID_USER_ID,

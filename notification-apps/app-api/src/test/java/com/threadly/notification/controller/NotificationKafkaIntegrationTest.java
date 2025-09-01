@@ -45,7 +45,7 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
     String likerId = "liker-789";
     
     NotificationEvent event = createPostLikeEvent(
-        eventId, VALID_USER_ID, ACTOR_USER_ID, "좋아요러", "https://test.com/profile.jpg", postId, likerId
+        eventId, VALID_USER_ID, ACTOR_USER_ID, "좋아요러", "https://test.com/profile.jpg", postId
     );
 
     // when - Kafka 이벤트 발신
@@ -83,7 +83,7 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
     String likerId = "api-liker-123";
     
     NotificationEvent event = createPostLikeEvent(
-        eventId, VALID_USER_ID, ACTOR_USER_ID, "API테스터", "https://api-test.com/profile.jpg", postId, likerId
+        eventId, VALID_USER_ID, ACTOR_USER_ID, "API테스터", "https://api-test.com/profile.jpg", postId
     );
 
     // when - Kafka 이벤트 발신
@@ -129,9 +129,9 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
     String eventId2 = "multi-event-002";
     String eventId3 = "multi-event-003";
     
-    NotificationEvent event1 = createPostLikeEvent(eventId1, VALID_USER_ID, "actor1", "액터1", "https://actor1.com/profile.jpg", "post1", "liker1");
-    NotificationEvent event2 = createPostLikeEvent(eventId2, VALID_USER_ID, "actor2", "액터2", "https://actor2.com/profile.jpg", "post2", "liker2");
-    NotificationEvent event3 = createPostLikeEvent(eventId3, VALID_USER_ID, "actor3", "액터3", "https://actor3.com/profile.jpg", "post3", "liker3");
+    NotificationEvent event1 = createPostLikeEvent(eventId1, VALID_USER_ID, "actor1", "액터1", "https://actor1.com/profile.jpg", "post1");
+    NotificationEvent event2 = createPostLikeEvent(eventId2, VALID_USER_ID, "actor2", "액터2", "https://actor2.com/profile.jpg", "post2");
+    NotificationEvent event3 = createPostLikeEvent(eventId3, VALID_USER_ID, "actor3", "액터3", "https://actor3.com/profile.jpg", "post3");
 
     // when - 다중 이벤트 발신
     sendKafkaTest(event1, status().isOk());
@@ -175,7 +175,7 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
         NotificationType.POST_LIKE,
         LocalDateTime.now(),
         new ActorProfile(ACTOR_USER_ID, "테스터", "https://test.com/profile.jpg"),
-        createPostLikeMetadata("test-post", "test-liker")
+        createPostLikeMetadata("test-post")
     );
 
     // when - 잘못된 이벤트 발신
@@ -198,7 +198,7 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
     String duplicateEventId = "duplicate-event-005";
     
     NotificationEvent event = createPostLikeEvent(
-        duplicateEventId, VALID_USER_ID, ACTOR_USER_ID, "중복테스터", "https://duplicate.com/profile.jpg", "duplicate-post", "duplicate-liker"
+        duplicateEventId, VALID_USER_ID, ACTOR_USER_ID, "중복테스터", "https://duplicate.com/profile.jpg", "duplicate-post"
     );
 
     // when - 동일한 이벤트 두 번 발신
@@ -233,7 +233,7 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
       String eventId = "bulk-event-" + String.format("%03d", i);
       NotificationEvent event = createPostLikeEvent(
           eventId, VALID_USER_ID, "bulk-actor-" + i, "벌크액터" + i, 
-          "https://bulk.com/" + i + "/profile.jpg", "bulk-post-" + i, "bulk-liker-" + i
+          "https://bulk.com/" + i + "/profile.jpg", "bulk-post-" + i
       );
       sendKafkaTest(event, status().isOk());
     }
@@ -264,10 +264,10 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
    * POST_LIKE 이벤트 생성 헬퍼 메서드
    */
   private NotificationEvent createPostLikeEvent(String eventId, String receiverUserId, 
-      String actorUserId, String actorNickname, String actorProfileUrl, String postId, String likerId) {
+      String actorUserId, String actorNickname, String actorProfileUrl, String postId) {
     
     ActorProfile actorProfile = new ActorProfile(actorUserId, actorNickname, actorProfileUrl);
-    Map<String, Object> metadata = createPostLikeMetadata(postId, likerId);
+    Map<String, Object> metadata = createPostLikeMetadata(postId);
     
     return new NotificationEvent(
         eventId,
@@ -282,10 +282,10 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
   /**
    * POST_LIKE 메타데이터 생성 헬퍼 메서드
    */
-  private Map<String, Object> createPostLikeMetadata(String postId, String likerId) {
+  private Map<String, Object> createPostLikeMetadata(String postId) {
     Map<String, Object> metadata = new HashMap<>();
+    metadata.put("type", "POST_LIKE");
     metadata.put("postId", postId);
-    metadata.put("likerId", likerId);
     return metadata;
   }
 }
