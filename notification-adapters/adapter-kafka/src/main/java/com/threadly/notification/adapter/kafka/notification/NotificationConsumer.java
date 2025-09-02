@@ -1,7 +1,7 @@
 package com.threadly.notification.adapter.kafka.notification;
 
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
-import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
+import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,15 +10,18 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
+/**
+ * Kafka 알림 이벤트 수신 consumer
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class NotificationConsumer {
 
-  private final NotificationCommandUseCase notificationCommandUseCase;
+  private final NotificationIngestionUseCase notificationIngestionUseCase;
 
   @Bean("notification")
-  public Consumer<Message<NotificationEvent>> notification() {
+  public Consumer<Message<NotificationEvent>> notificationEventConsumer() {
     return message -> {
       Object rawKey = message.getHeaders().get(KafkaHeaders.RECEIVED_KEY);
       NotificationEvent event = message.getPayload();
@@ -28,11 +31,9 @@ public class NotificationConsumer {
       // key와 receiverId 일치성 검증
       if (rawKey != null && !rawKey.equals(event.getReceiverUserId())) {
         log.warn("key 불일치 - key: {}, receiverId: {}", rawKey, event.getReceiverUserId());
+      } else {
+        notificationIngestionUseCase.ingest(event.toCommand());
       }
-
-      notificationCommandUseCase.handleNotificationEvent(
-          event.toCommand()
-      );
 
       log.debug("Notification successfully - eventId: {}", event.getEventId());
     };

@@ -1,4 +1,4 @@
-package com.threadly.notification.adapter.kafka.kafka;
+package com.threadly.notification.adapter.kafka.test;
 
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
 import com.threadly.notification.core.port.test.dto.NotificationTestCommand;

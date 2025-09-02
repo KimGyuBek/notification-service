@@ -5,8 +5,11 @@ package com.threadly.notification.core.port.mail.out;
  */
 public interface SendMailPort {
 
-  void sendVerificationMail(String to, String code);
-
-  void sendWelcomeMail(String to, String userName);
-
+  /**
+   * 메일 전송
+   *
+   * @param subject
+   * @param context
+   */
+  void sendMail(String to, String subject, String context);
 }
