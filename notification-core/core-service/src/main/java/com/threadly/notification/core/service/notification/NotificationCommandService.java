@@ -6,6 +6,7 @@ import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
+import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
 import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
 import com.threadly.notification.core.port.notification.out.NotificationQueryPort;
 import com.threadly.notification.core.service.utils.MetadataMapper;
@@ -16,7 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class NotificationCommandService implements NotificationCommandUseCase {
+public class NotificationCommandService implements NotificationCommandUseCase,
+    NotificationIngestionUseCase {
 
   private final NotificationCommandPort notificationCommandPort;
   private final NotificationQueryPort notificationQueryPort;
@@ -24,7 +26,7 @@ public class NotificationCommandService implements NotificationCommandUseCase {
   private final MetadataMapper metadataMapper;
 
   @Override
-  public void handleNotificationEvent(NotificationCommand command) {
+  public void ingest(NotificationCommand command) {
     log.info("Handling notification event: {}", command.toString());
     /*알림 저장*/
     Notification notification = Notification.newNotification(

@@ -1,6 +1,6 @@
 spring:
   config:
-    import: 
+    import:
       - classpath:application-kafka.yml
       - classpath:application-persistence.yml
 
@@ -8,3 +8,8 @@ logging:
   level:
     com.threadly.notification: DEBUG
     org.apache.kafka: WARN
+
+properties:
+  email:
+    verification-url: http://localhost:8080
+
