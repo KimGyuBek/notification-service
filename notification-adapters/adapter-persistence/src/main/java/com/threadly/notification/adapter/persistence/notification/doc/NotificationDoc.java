@@ -15,24 +15,34 @@ import com.threadly.notification.core.domain.notification.metadata.PostCommentMe
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 @Data
 @Document(collection = "notifications")
+@Builder
+@AllArgsConstructor
 public class NotificationDoc {
 
   @Id
   @Field("event_id")
   private String eventId;
 
+  @Indexed
   @NotBlank
   @Field("receiver_id")
   private String receiverId;
+
+  @Field(targetType = FieldType.OBJECT_ID, name = "sort_id")
+  private String sortId;
 
   @NotBlank
   @Field("notification_type")
@@ -73,6 +83,22 @@ public class NotificationDoc {
   @LastModifiedDate
   @Field("modified_at")
   private LocalDateTime modifiedAt;
+
+  public static NotificationDoc newDoc(String eventId, String receiverId, String sortId,
+      NotificationType notificationType,
+      NotificationMetaData metadata, LocalDateTime occurredAt, ActorProfile actorProfile) {
+    return NotificationDoc.builder()
+        .eventId(eventId)
+        .receiverId(receiverId)
+        .sortId(sortId)
+        .notificationType(notificationType)
+        .isRead(false)
+        .metadata(metadata)
+        .occurredAt(occurredAt)
+        .actorProfile(actorProfile)
+        .build();
+
+  }
 
   public NotificationDoc(String eventId, String receiverId, NotificationType notificationType,
       NotificationMetaData metadata, LocalDateTime occurredAt, ActorProfile actorProfile

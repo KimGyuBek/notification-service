@@ -1,5 +1,6 @@
 package com.threadly.notification.adapter.persistence.notification.adapter;
 
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.adapter.persistence.notification.mapper.NotificationMapper;
 import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
 import com.threadly.notification.adapter.persistence.notification.repository.NotificationCustomRepository;
@@ -8,11 +9,13 @@ import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQ
 import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
 import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
 import com.threadly.notification.core.port.notification.out.NotificationQueryPort;
+import com.threadly.notification.core.port.notification.out.dto.SavedNotificationEventDoc;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,8 +28,26 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
   private final NotificationCustomRepository notificationCustomRepository;
 
   @Override
-  public void save(Notification notification) {
-    mongoNotificationRepository.save(NotificationMapper.toEntity(notification));
+  public SavedNotificationEventDoc save(Notification notification) {
+    NotificationDoc saved = mongoNotificationRepository.save(
+        NotificationDoc.newDoc(
+            notification.getEventId(),
+            notification.getReceiverId(),
+            new ObjectId().toHexString(),
+            notification.getNotificationType(),
+            notification.getMetadata(),
+            notification.getOccurredAt(),
+            notification.getActorProfile()
+        )
+    );
+
+    return new SavedNotificationEventDoc(
+        saved.getEventId(),
+        saved.getSortId(),
+        saved.getNotificationType(),
+        saved.getMetadata(),
+        saved.getOccurredAt()
+    );
   }
 
   @Override

@@ -5,14 +5,14 @@ import com.threadly.notification.core.domain.notification.metadata.NotificationM
 import java.time.LocalDateTime;
 
 /**
- * 실시간 알림 Payload 객체
+ * 저장된 NotificationEventDoc 응답 dto
  */
-public record NotificationPayload(
+public record SavedNotificationEventDoc(
     String eventId,
     String sortId,
     NotificationType type,
     NotificationMetaData metaData,
-    LocalDateTime occurredAt
+    LocalDateTime createdAt
 ) {
 
 }

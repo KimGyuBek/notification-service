@@ -11,6 +11,7 @@ import com.threadly.notification.core.port.notification.out.NotificationCommandP
 import com.threadly.notification.core.port.notification.out.NotificationPushPort;
 import com.threadly.notification.core.port.notification.out.NotificationQueryPort;
 import com.threadly.notification.core.port.notification.out.dto.NotificationPayload;
+import com.threadly.notification.core.port.notification.out.dto.SavedNotificationEventDoc;
 import com.threadly.notification.core.service.utils.MetadataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,16 +48,17 @@ public class NotificationCommandService implements NotificationCommandUseCase,
         metadataMapper.toTypeMeta(command.notificationType(), command.metadata())
     );
 
-    notificationCommandPort.save(notification);
+    SavedNotificationEventDoc saved = notificationCommandPort.save(notification);
 
     /*알림 전송*/
     notificationPushPort.pushToUser(
         notification.getReceiverId(),
         new NotificationPayload(
-            notification.getEventId(),
-            notification.getNotificationType().name(),
-            "metadata",
-            notification.getOccurredAt().toString()
+            saved.eventId(),
+            saved.sortId(),
+            saved.type(),
+            saved.metaData(),
+            saved.createdAt()
         )
     );
 

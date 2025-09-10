@@ -1,14 +1,8 @@
 package com.threadly.notification.adapter.websocket.notification;
 
-import static com.threadly.notification.adapter.websocket.notification.dto.WsInboundMessage.InboundMessageType.ACK;
-import static com.threadly.notification.adapter.websocket.notification.dto.WsInboundMessage.InboundMessageType.RESYNC;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.threadly.notification.adapter.websocket.notification.dto.AckRequest;
 import com.threadly.notification.adapter.websocket.notification.dto.WsInboundMessage;
-import com.threadly.notification.adapter.websocket.notification.dto.WsInboundMessage.InboundMessageType;
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -83,14 +77,14 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
     try {
       WsInboundMessage obj = objectMapper.readValue(message, WsInboundMessage.class);
 
-      switch(obj.type()) {
+      switch (obj.type()) {
         case ACK -> {
-          log.debug("ACK 메시지 수신 userId={}, message={}", userId, obj.toString());
+          log.debug("ACK 메시지 수신 userId={}, metaData={}", userId, obj.toString());
 
           // TODO last receivedId 반영하고 싶으면 저장소에 업데이트
         }
         case RESYNC -> {
-          log.debug("RESYNC 메시지 수신 userId={}, message={}", userId, obj.toString());
+          log.debug("RESYNC 메시지 수신 userId={}, metaData={}", userId, obj.toString());
 
           // TODO 재동기화 로직 구현
         }
@@ -100,10 +94,9 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
       }
 
     } catch (Exception e) {
-      log.warn("인바운드 메시지 처리 실패 userId={}, message={}, error={}", userId, message, e.getMessage());
+      log.warn("인바운드 메시지 처리 실패 userId={}, metaData={}, error={}", userId, message, e.getMessage());
     }
   }
-
 
 
   private void startHeartbeat(WebSocketSession session) {

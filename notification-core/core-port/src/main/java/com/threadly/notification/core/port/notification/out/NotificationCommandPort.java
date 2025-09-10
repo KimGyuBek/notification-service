@@ -1,6 +1,7 @@
 package com.threadly.notification.core.port.notification.out;
 
 import com.threadly.notification.core.domain.notification.Notification;
+import com.threadly.notification.core.port.notification.out.dto.SavedNotificationEventDoc;
 
 /**
  * 게시글 좋아요 command port
@@ -12,7 +13,8 @@ public interface NotificationCommandPort {
    *
    * @param notification
    */
-  void save(Notification notification);
+  SavedNotificationEventDoc save(Notification notification);
+
 
   /**
    * 주어진 eventId에 해당하는 알림 데이터 삭제

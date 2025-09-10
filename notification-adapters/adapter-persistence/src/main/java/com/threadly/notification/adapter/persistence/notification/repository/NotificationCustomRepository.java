@@ -74,7 +74,7 @@ public class NotificationCustomRepository {
       query.addCriteria(Criteria.where("occurredAt").lt(getNotificationsQuery.cursorTimestamp()));
     }
 
-    // 정렬: createdAt 내림차순, _id 내림차순 (같은 시간대에서는 _id로 구분)
+    // 정렬: occurredAt 내림차순, _id 내림차순 (같은 시간대에서는 _id로 구분)
     query.with(Sort.by(Direction.DESC, "occurredAt").and(Sort.by(Direction.DESC, "eventId")));
     query.limit(getNotificationsQuery.limit() + 1);
 
