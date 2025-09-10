@@ -3,7 +3,7 @@ package com.threadly.notification.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.notification.BaseApiTest;
 import com.threadly.notification.CommonResponse;
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
@@ -161,7 +161,7 @@ public class BaseNotificationApiTest extends BaseApiTest {
   /**
    * 테스트용 알림 엔티티 생성 (기본값)
    */
-  public NotificationEntity createTestNotification(String receiverId) {
+  public NotificationDoc createTestNotification(String receiverId) {
     return createTestNotification(receiverId, UUID.randomUUID().toString(), "test-post",
         "test-actor-user", "test-nickname", "https://test.com/profile.jpg");
   }
@@ -169,7 +169,7 @@ public class BaseNotificationApiTest extends BaseApiTest {
   /**
    * 테스트용 알림 엔티티 생성 (상세 설정)
    */
-  public NotificationEntity createTestNotification(String receiverId, String eventId, String postId,
+  public NotificationDoc createTestNotification(String receiverId, String eventId, String postId,
       String actorUserId) {
     return createTestNotification(receiverId, eventId, postId, actorUserId, "test-nickname",
         "https://test.com/profile.jpg");
@@ -178,12 +178,12 @@ public class BaseNotificationApiTest extends BaseApiTest {
   /**
    * 테스트용 알림 엔티티 생성 (전체 설정)
    */
-  public NotificationEntity createTestNotification(String receiverId, String eventId, String postId,
+  public NotificationDoc createTestNotification(String receiverId, String eventId, String postId,
       String actorUserId, String nickname, String profileImageUrl) {
     PostLikeMeta metadata = new PostLikeMeta(postId);
     ActorProfile actorProfile = new ActorProfile(actorUserId, nickname, profileImageUrl);
 
-    return new NotificationEntity(
+    return new NotificationDoc(
         eventId,
         receiverId,
         NotificationType.POST_LIKE,

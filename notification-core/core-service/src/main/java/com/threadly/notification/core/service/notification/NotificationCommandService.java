@@ -8,11 +8,14 @@ import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
 import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
 import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
+import com.threadly.notification.core.port.notification.out.NotificationPushPort;
 import com.threadly.notification.core.port.notification.out.NotificationQueryPort;
+import com.threadly.notification.core.port.notification.out.dto.NotificationPayload;
 import com.threadly.notification.core.service.utils.MetadataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -22,9 +25,11 @@ public class NotificationCommandService implements NotificationCommandUseCase,
 
   private final NotificationCommandPort notificationCommandPort;
   private final NotificationQueryPort notificationQueryPort;
+  private final NotificationPushPort notificationPushPort;
 
   private final MetadataMapper metadataMapper;
 
+  @Transactional
   @Override
   public void ingest(NotificationCommand command) {
     log.info("Handling notification event: {}", command.toString());
@@ -44,9 +49,20 @@ public class NotificationCommandService implements NotificationCommandUseCase,
 
     notificationCommandPort.save(notification);
 
-    /*알림*/
+    /*알림 전송*/
+    notificationPushPort.pushToUser(
+        notification.getReceiverId(),
+        new NotificationPayload(
+            notification.getEventId(),
+            notification.getNotificationType().name(),
+            "metadata",
+            notification.getOccurredAt().toString()
+        )
+    );
+
   }
 
+  @Transactional
   @Override
   public void removeNotification(String eventId, String userId) {
     /*eventId, receiverId에 해당하는 알림이 있는지 조회*/
@@ -58,11 +74,13 @@ public class NotificationCommandService implements NotificationCommandUseCase,
     notificationCommandPort.deleteByEventId(eventId);
   }
 
+  @Transactional
   @Override
   public void clearNotifications(String userId) {
     notificationCommandPort.deleteAllByReceiverId(userId);
   }
 
+  @Transactional
   @Override
   public void markNotificationAsRead(String eventId, String userId) {
 
@@ -78,6 +96,7 @@ public class NotificationCommandService implements NotificationCommandUseCase,
     notificationCommandPort.markAsRead(notification);
   }
 
+  @Transactional
   @Override
   public void markAllNotificationsAsRead(String userId) {
     notificationCommandPort.markAllAsRead(userId);

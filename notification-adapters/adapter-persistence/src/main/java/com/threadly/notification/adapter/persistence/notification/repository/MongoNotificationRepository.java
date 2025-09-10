@@ -1,12 +1,12 @@
 package com.threadly.notification.adapter.persistence.notification.repository;
 
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MongoNotificationRepository extends MongoRepository<NotificationEntity, String> {
+public interface MongoNotificationRepository extends MongoRepository<NotificationDoc, String> {
 
   /**
    * 주어진 eventId, receiverId에 해당하는 데이터가 있는지 조회
@@ -29,5 +29,5 @@ public interface MongoNotificationRepository extends MongoRepository<Notificatio
    * @param receiverId
    * @return
    */
-  Optional<NotificationEntity> findByEventIdAndReceiverId(String eventId, String receiverId);
+  Optional<NotificationDoc> findByEventIdAndReceiverId(String eventId, String receiverId);
 }

@@ -3,7 +3,7 @@ package com.threadly.notification.controller;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.notification.CommonResponse;
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.commons.exception.ErrorCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,9 +35,9 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     
     // 현재 사용자의 여러 알림 생성
-    NotificationEntity notification1 = createTestNotification(VALID_USER_ID, "event1", "post1", "liker1");
-    NotificationEntity notification2 = createTestNotification(VALID_USER_ID, "event2", "post2", "liker2");
-    NotificationEntity notification3 = createTestNotification(VALID_USER_ID, "event3", "post3", "liker3");
+    NotificationDoc notification1 = createTestNotification(VALID_USER_ID, "event1", "post1", "liker1");
+    NotificationDoc notification2 = createTestNotification(VALID_USER_ID, "event2", "post2", "liker2");
+    NotificationDoc notification3 = createTestNotification(VALID_USER_ID, "event3", "post3", "liker3");
     
     notificationRepository.save(notification1);
     notificationRepository.save(notification2);
@@ -88,12 +88,12 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     
     // 현재 사용자의 알림
-    NotificationEntity myNotification1 = createTestNotification(VALID_USER_ID, "my-event1", "my-post1", "liker1");
-    NotificationEntity myNotification2 = createTestNotification(VALID_USER_ID, "my-event2", "my-post2", "liker2");
+    NotificationDoc myNotification1 = createTestNotification(VALID_USER_ID, "my-event1", "my-post1", "liker1");
+    NotificationDoc myNotification2 = createTestNotification(VALID_USER_ID, "my-event2", "my-post2", "liker2");
     
     // 다른 사용자의 알림
-    NotificationEntity otherNotification1 = createTestNotification(OTHER_USER_ID, "other-event1", "other-post1", "other-liker1");
-    NotificationEntity otherNotification2 = createTestNotification(OTHER_USER_ID, "other-event2", "other-post2", "other-liker2");
+    NotificationDoc otherNotification1 = createTestNotification(OTHER_USER_ID, "other-event1", "other-post1", "other-liker1");
+    NotificationDoc otherNotification2 = createTestNotification(OTHER_USER_ID, "other-event2", "other-post2", "other-liker2");
     
     notificationRepository.save(myNotification1);
     notificationRepository.save(myNotification2);
@@ -125,7 +125,7 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
     String emptyToken = "";
     
     // 테스트 알림 생성
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // when
@@ -149,7 +149,7 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     
     // 테스트 알림 생성
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // when
@@ -173,7 +173,7 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     
     // 현재 사용자의 알림 중 일부만 생성
-    NotificationEntity notification1 = createTestNotification(VALID_USER_ID, "partial-event1", "partial-post1", "partial-liker1");
+    NotificationDoc notification1 = createTestNotification(VALID_USER_ID, "partial-event1", "partial-post1", "partial-liker1");
     notificationRepository.save(notification1);
 
     // when
@@ -194,7 +194,7 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
     
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
     
     // 첫 번째 전체 삭제
@@ -223,7 +223,7 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
     
     // 대량 알림 생성 (50개)
     for (int i = 0; i < 50; i++) {
-      NotificationEntity notification = createTestNotification(VALID_USER_ID, "bulk-event-" + i, 
+      NotificationDoc notification = createTestNotification(VALID_USER_ID, "bulk-event-" + i,
           "bulk-post-" + i, "bulk-liker-" + i, "bulk-nickname-" + i, 
           "https://test.com/bulk-profile" + i + ".jpg");
       notificationRepository.save(notification);
@@ -257,10 +257,10 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
     
     // 다양한 설정의 알림들 생성
-    NotificationEntity normalNotification = createTestNotification(VALID_USER_ID, "normal-event", 
+    NotificationDoc normalNotification = createTestNotification(VALID_USER_ID, "normal-event",
         "normal-post", "normal-liker", "normal-nickname", "https://normal.com/profile.jpg");
     
-    NotificationEntity customNotification = createTestNotification(VALID_USER_ID, "custom-event", 
+    NotificationDoc customNotification = createTestNotification(VALID_USER_ID, "custom-event",
         "custom-post", "custom-liker", "커스텀닉네임", "https://custom.com/특별한/프로필.jpg");
     
     notificationRepository.save(normalNotification);
@@ -289,7 +289,7 @@ public class DeleteAllNotificationsApiTest extends BaseNotificationApiTest {
     
     // 다양한 패턴의 알림 생성
     for (int i = 0; i < 20; i++) {
-      NotificationEntity notification = createTestNotification(VALID_USER_ID, "perf-event-" + i, 
+      NotificationDoc notification = createTestNotification(VALID_USER_ID, "perf-event-" + i,
           "perf-post-" + i, "perf-liker-" + i);
       notificationRepository.save(notification);
     }

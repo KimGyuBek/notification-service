@@ -3,7 +3,7 @@ package com.threadly.notification.controller;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.notification.CommonResponse;
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.commons.exception.ErrorCode;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +34,7 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
     // given
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // 삭제 전 존재 확인
@@ -79,7 +79,7 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
     // given
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity otherUserNotification = createTestNotification(OTHER_USER_ID);
+    NotificationDoc otherUserNotification = createTestNotification(OTHER_USER_ID);
     notificationRepository.save(otherUserNotification);
 
     // when
@@ -101,7 +101,7 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
   void deleteNotification_WithoutAuthentication_ShouldReturnBadRequest() throws Exception {
     // given
     String emptyToken = "";
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // when
@@ -124,7 +124,7 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
     // given
     String expiredToken = accessTokenTestUtils.generateExpiredAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // when
@@ -167,11 +167,11 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
 
     // 같은 사용자의 여러 알림 생성
-    NotificationEntity notification1 = createTestNotification(VALID_USER_ID, "event1", "post1",
+    NotificationDoc notification1 = createTestNotification(VALID_USER_ID, "event1", "post1",
         "liker1");
-    NotificationEntity notification2 = createTestNotification(VALID_USER_ID, "event2", "post2",
+    NotificationDoc notification2 = createTestNotification(VALID_USER_ID, "event2", "post2",
         "liker2");
-    NotificationEntity notification3 = createTestNotification(VALID_USER_ID, "event3", "post3",
+    NotificationDoc notification3 = createTestNotification(VALID_USER_ID, "event3", "post3",
         "liker3");
 
     notificationRepository.save(notification1);
@@ -201,7 +201,7 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
     // given
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // 첫 번째 삭제
@@ -228,12 +228,12 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
     String testEventId = "test-event-for-complete-removal";
-    NotificationEntity notification = createTestNotification(VALID_USER_ID, testEventId,
+    NotificationDoc notification = createTestNotification(VALID_USER_ID, testEventId,
         "test-post", "test-actor-user", "test-nickname", "https://test.com/profile.jpg");
     notificationRepository.save(notification);
 
     // 삭제 전 데이터 존재 확인
-    Optional<NotificationEntity> beforeDelete = notificationRepository.findById(testEventId);
+    Optional<NotificationDoc> beforeDelete = notificationRepository.findById(testEventId);
     assert beforeDelete.isPresent();
 
     // when
@@ -245,7 +245,7 @@ public class DeleteNotificationApiTest extends BaseNotificationApiTest {
     assert response.isSuccess();
 
     // 완전한 데이터 제거 확인
-    Optional<NotificationEntity> afterDelete = notificationRepository.findById(testEventId);
+    Optional<NotificationDoc> afterDelete = notificationRepository.findById(testEventId);
     assert afterDelete.isEmpty();
     assert !notificationRepository.existsByEventIdAndReceiverId(testEventId, VALID_USER_ID);
   }

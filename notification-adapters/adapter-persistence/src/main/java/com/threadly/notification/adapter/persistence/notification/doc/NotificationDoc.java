@@ -1,4 +1,4 @@
-package com.threadly.notification.adapter.persistence.notification.entity;
+package com.threadly.notification.adapter.persistence.notification.doc;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -24,7 +24,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Document(collection = "notifications")
-public class NotificationEntity {
+public class NotificationDoc {
 
   @Id
   @Field("event_id")
@@ -74,7 +74,7 @@ public class NotificationEntity {
   @Field("modified_at")
   private LocalDateTime modifiedAt;
 
-  public NotificationEntity(String eventId, String receiverId, NotificationType notificationType,
+  public NotificationDoc(String eventId, String receiverId, NotificationType notificationType,
       NotificationMetaData metadata, LocalDateTime occurredAt, ActorProfile actorProfile
   ) {
     this.eventId = eventId;
@@ -86,6 +86,6 @@ public class NotificationEntity {
     this.actorProfile = actorProfile;
   }
 
-  public NotificationEntity() {
+  public NotificationDoc() {
   }
 }

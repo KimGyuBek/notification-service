@@ -4,7 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
@@ -58,11 +58,11 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
     Awaitility.await()
         .atMost(10, TimeUnit.SECONDS)
         .untilAsserted(() -> {
-          Optional<NotificationEntity> savedEntity = notificationRepository.findByEventIdAndReceiverId(
+          Optional<NotificationDoc> savedEntity = notificationRepository.findByEventIdAndReceiverId(
               eventId, VALID_USER_ID);
           assert savedEntity.isPresent();
           
-          NotificationEntity notification = savedEntity.get();
+          NotificationDoc notification = savedEntity.get();
           assert notification.getEventId().equals(eventId);
           assert notification.getReceiverId().equals(VALID_USER_ID);
           assert notification.getNotificationType() == NotificationType.POST_LIKE;

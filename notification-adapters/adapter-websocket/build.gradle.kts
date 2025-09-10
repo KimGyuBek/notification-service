@@ -5,5 +5,12 @@ dependencies {
     
     implementation(project(":notification-commons"))
 
+    implementation("org.springframework:spring-websocket")
+    implementation("org.springframework:spring-messaging")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("org.slf4j:slf4j-api")
+    
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 
 }
