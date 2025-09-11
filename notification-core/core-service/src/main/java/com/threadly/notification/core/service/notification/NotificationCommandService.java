@@ -8,13 +8,14 @@ import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
 import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
 import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
-import com.threadly.notification.core.port.notification.out.NotificationPushPort;
 import com.threadly.notification.core.port.notification.out.NotificationQueryPort;
 import com.threadly.notification.core.port.notification.out.dto.NotificationPayload;
 import com.threadly.notification.core.port.notification.out.dto.SavedNotificationEventDoc;
+import com.threadly.notification.core.service.notification.dto.NotificationPushCommand;
 import com.threadly.notification.core.service.utils.MetadataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +27,10 @@ public class NotificationCommandService implements NotificationCommandUseCase,
 
   private final NotificationCommandPort notificationCommandPort;
   private final NotificationQueryPort notificationQueryPort;
-  private final NotificationPushPort notificationPushPort;
 
   private final MetadataMapper metadataMapper;
+
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   @Transactional
   @Override
@@ -50,18 +52,8 @@ public class NotificationCommandService implements NotificationCommandUseCase,
 
     SavedNotificationEventDoc saved = notificationCommandPort.save(notification);
 
-    /*알림 전송*/
-    notificationPushPort.pushToUser(
-        notification.getReceiverId(),
-        new NotificationPayload(
-            saved.eventId(),
-            saved.sortId(),
-            saved.type(),
-            saved.metaData(),
-            saved.createdAt()
-        )
-    );
-
+    applicationEventPublisher.publishEvent(NotificationPushCommand.newCommand(
+        notification.getReceiverId(), saved));
   }
 
   @Transactional

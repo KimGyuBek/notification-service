@@ -12,7 +12,7 @@ public record SavedNotificationEventDoc(
     String sortId,
     NotificationType type,
     NotificationMetaData metaData,
-    LocalDateTime createdAt
+    LocalDateTime occurredAt
 ) {
 
 }
