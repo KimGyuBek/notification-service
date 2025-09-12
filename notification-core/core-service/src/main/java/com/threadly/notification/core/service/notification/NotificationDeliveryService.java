@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class NotificationPushService {
+public class NotificationDeliveryService {
 
   private final NotificationPushPort notificationPushPort;
 

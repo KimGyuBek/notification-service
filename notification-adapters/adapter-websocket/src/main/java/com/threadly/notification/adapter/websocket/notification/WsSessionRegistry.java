@@ -43,6 +43,7 @@ public class WsSessionRegistry {
 
       try {
         session.sendMessage(new TextMessage(json));
+        log.debug("메세지 전송: userId={}, sessionId={}", userId, session.getId());
         return false;
       } catch (IOException e) {
         log.warn("메시지 전송 실패 userId={}, sessionId={}, error={}", userId, session.getId(),

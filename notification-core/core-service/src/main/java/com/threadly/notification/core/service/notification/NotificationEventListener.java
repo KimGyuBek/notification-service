@@ -13,13 +13,13 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class NotificationEventListener {
 
-  private final NotificationPushService notificationPushService;
+  private final NotificationDeliveryService notificationDeliveryService;
 
   @Async("eventExecutor")
   @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
   public void onNotificationPublished(NotificationPushCommand command) {
     try {
-      notificationPushService.pushNotification(command);
+      notificationDeliveryService.pushNotification(command);
       log.debug("알림 발행 요청 성공");
 
     } catch (Exception e) {

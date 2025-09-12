@@ -9,7 +9,6 @@ import com.threadly.notification.core.port.notification.in.NotificationCommandUs
 import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
 import com.threadly.notification.core.port.notification.out.NotificationCommandPort;
 import com.threadly.notification.core.port.notification.out.NotificationQueryPort;
-import com.threadly.notification.core.port.notification.out.dto.NotificationPayload;
 import com.threadly.notification.core.port.notification.out.dto.SavedNotificationEventDoc;
 import com.threadly.notification.core.service.notification.dto.NotificationPushCommand;
 import com.threadly.notification.core.service.utils.MetadataMapper;
