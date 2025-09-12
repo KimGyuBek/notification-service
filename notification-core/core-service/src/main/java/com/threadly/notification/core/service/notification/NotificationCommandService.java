@@ -2,8 +2,8 @@ package com.threadly.notification.core.service.notification;
 
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.exception.notification.NotificationException;
+import com.threadly.notification.core.domain.notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.Notification;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
 import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
@@ -35,24 +35,28 @@ public class NotificationCommandService implements NotificationCommandUseCase,
   @Override
   public void ingest(NotificationCommand command) {
     log.info("Handling notification event: {}", command.toString());
-    /*알림 저장*/
+    /*도메인 생성*/
     Notification notification = Notification.newNotification(
         command.eventId(),
         command.receiverId(),
         command.notificationType(),
         command.occurredAt(),
         new ActorProfile(
-            command.actorProfile().userId(),
-            command.actorProfile().nickname(),
-            command.actorProfile().profileImageUrl()
+            command.actorProfile().getUserId(),
+            command.actorProfile().getNickname(),
+            command.actorProfile().getProfileImageUrl()
         ),
         metadataMapper.toTypeMeta(command.notificationType(), command.metadata())
     );
 
+    /*알림 저장*/
     SavedNotificationEventDoc saved = notificationCommandPort.save(notification);
 
-    applicationEventPublisher.publishEvent(NotificationPushCommand.newCommand(
-        notification.getReceiverId(), saved));
+    /*알림 발행*/
+    applicationEventPublisher.publishEvent(
+        new NotificationPushCommand(notification, saved.sortId())
+    );
+
   }
 
   @Transactional

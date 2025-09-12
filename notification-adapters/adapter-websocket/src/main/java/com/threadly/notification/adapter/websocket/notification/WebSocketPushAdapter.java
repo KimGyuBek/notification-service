@@ -3,7 +3,7 @@ package com.threadly.notification.adapter.websocket.notification;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.notification.adapter.websocket.notification.dto.OutEvent;
 import com.threadly.notification.core.port.notification.out.NotificationPushPort;
-import com.threadly.notification.core.port.notification.out.dto.NotificationPayload;
+import com.threadly.notification.core.port.notification.out.dto.NotificationMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,13 +17,13 @@ public class WebSocketPushAdapter implements NotificationPushPort {
   private final ObjectMapper objectMapper;
 
   @Override
-  public void pushToUser(String userId, NotificationPayload payload) {
+  public void pushToUser(String userId, NotificationMessage payload) {
     String json = toOutboundJson(payload);
 
     wsSessionRegistry.emit(userId, json);
   }
 
-  private String toOutboundJson(NotificationPayload payload) {
+  private String toOutboundJson(NotificationMessage payload) {
     try {
       return objectMapper.writeValueAsString(new OutEvent(payload));
     } catch (Exception e) {

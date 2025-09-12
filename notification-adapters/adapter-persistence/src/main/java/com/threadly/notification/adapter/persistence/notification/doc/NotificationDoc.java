@@ -3,8 +3,8 @@ package com.threadly.notification.adapter.persistence.notification.doc;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.threadly.notification.core.domain.notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.Notification;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowAcceptMeta;
@@ -74,7 +74,7 @@ public class NotificationDoc {
 
   @NotBlank
   @Field("actor_profile")
-  private Notification.ActorProfile actorProfile;
+  private ActorProfile actorProfile;
 
   @CreatedDate
   @Field("created_at")

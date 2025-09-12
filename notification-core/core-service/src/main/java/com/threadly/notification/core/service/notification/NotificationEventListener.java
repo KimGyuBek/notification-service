@@ -23,7 +23,8 @@ public class NotificationEventListener {
       log.debug("알림 발행 요청 성공");
 
     } catch (Exception e) {
-      log.error("알림 발행 요청 실패: eventId={}, error message={}", command.eventId(), e);
+      log.error("알림 발행 요청 실패: eventId={}, error message={}", command.notification().getEventId(),
+          e);
       throw e;
     }
   }

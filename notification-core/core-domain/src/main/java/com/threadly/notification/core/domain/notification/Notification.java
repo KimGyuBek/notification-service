@@ -51,8 +51,4 @@ public class Notification {
    * @param nickname
    * @param profileImageUrl
    */
-  public record ActorProfile(String userId, String nickname, String profileImageUrl) {
-
-
-  }
 }

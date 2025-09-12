@@ -1,7 +1,7 @@
 package com.threadly.notification.core.port.notification.in.dto;
 
 import com.threadly.notification.commons.response.CursorSupport;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
+import com.threadly.notification.core.domain.notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import java.time.LocalDateTime;
 

@@ -1,6 +1,7 @@
 package com.threadly.notification.adapter.kafka.notification;
 
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
+import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,16 @@ public class NotificationConsumer {
       if (rawKey != null && !rawKey.equals(event.getReceiverUserId())) {
         log.warn("key 불일치 - key: {}, receiverId: {}", rawKey, event.getReceiverUserId());
       } else {
-        notificationIngestionUseCase.ingest(event.toCommand());
+        notificationIngestionUseCase.ingest(
+            new NotificationCommand(
+                event.getEventId(),
+                event.getReceiverUserId(),
+                event.getNotificationType(),
+                event.getMetadata(),
+                event.getOccurredAt(),
+                event.getActorProfile()
+            )
+        );
       }
 
       log.debug("Notification successfully - eventId: {}", event.getEventId());

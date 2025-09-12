@@ -3,7 +3,7 @@ package com.threadly.notification.core.port.notification.in.dto;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
+import com.threadly.notification.core.domain.notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowAcceptMeta;

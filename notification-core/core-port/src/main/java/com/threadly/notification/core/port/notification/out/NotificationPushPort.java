@@ -1,6 +1,6 @@
 package com.threadly.notification.core.port.notification.out;
 
-import com.threadly.notification.core.port.notification.out.dto.NotificationPayload;
+import com.threadly.notification.core.port.notification.out.dto.NotificationMessage;
 
 /**
  * Notification 알림 푸시 port
@@ -12,6 +12,6 @@ public interface NotificationPushPort {
    * @param userId
    * @param payload
    */
-  void pushToUser(String userId, NotificationPayload payload);
+  void pushToUser(String userId, NotificationMessage payload);
 
 }
