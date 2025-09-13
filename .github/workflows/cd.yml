@@ -42,7 +42,7 @@ jobs:
 
       - name: 도커 이미지 빌드
         run: |
-          docker build -no-cache -t ${{secrets.DOCKER_IMAGE_NAME }}:$IMAGE_TAG -f ./infra/docker/Dockerfile .
+          docker build --no-cache -t ${{secrets.DOCKER_IMAGE_NAME }}:$IMAGE_TAG -f ./infra/docker/Dockerfile .
 
       - name: 도커 로그인
         uses: docker/login-action@v3
