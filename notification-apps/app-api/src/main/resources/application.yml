@@ -3,7 +3,7 @@ spring:
     import:
       - classpath:application-kafka.yml
       - classpath:application-persistence.yml
-      - classpath:application-redis-test.yml
+      - classpath:application-redis-prod.yml
   mail:
     host: smtp.naver.com
     port: 587
