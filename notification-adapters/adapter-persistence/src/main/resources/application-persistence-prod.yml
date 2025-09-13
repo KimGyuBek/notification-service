@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: ${SPRING_MONGO_URI}
+
+  mongodb:
+    embedded:
+      enabled: false
+
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG
+    org.mongodb.driver: WARN
