@@ -1,7 +1,6 @@
 package com.threadly.notification.adapter.websocket.notification;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.threadly.notification.adapter.websocket.notification.dto.WsInboundMessage;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.PingMessage;
 import org.springframework.web.socket.PongMessage;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -59,16 +57,6 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
   }
 
   @Override
-  protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-    String userId = getUserId(session);
-    if (userId == null) {
-      return;
-    }
-
-    handleInbound(userId, message.getPayload());
-  }
-
-  @Override
   public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
     String userId = getUserId(session);
     wsSessionRegistry.remove(userId, session);
@@ -92,30 +80,6 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
     lastPongAt.remove(session.getId());
   }
 
-  private void handleInbound(String userId, String message) {
-    try {
-      WsInboundMessage obj = objectMapper.readValue(message, WsInboundMessage.class);
-
-      switch (obj.type()) {
-        case ACK -> {
-          log.debug("ACK 메시지 수신 userId={}, metaData={}", userId, obj.toString());
-
-          // TODO last receivedId 반영하고 싶으면 저장소에 업데이트
-        }
-        case RESYNC -> {
-          log.debug("RESYNC 메시지 수신 userId={}, metaData={}", userId, obj.toString());
-
-          // TODO 재동기화 로직 구현
-        }
-        default -> {
-          log.error("지원하지 않는 메세지 type={}", obj.type());
-        }
-      }
-
-    } catch (Exception e) {
-      log.warn("인바운드 메시지 처리 실패 userId={}, metaData={}, error={}", userId, message, e.getMessage());
-    }
-  }
 
   private void startPing(WebSocketSession session) {
     pingPongExecutor.scheduleAtFixedRate(() -> {
