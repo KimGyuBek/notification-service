@@ -114,6 +114,7 @@ sleep 10
 log "Health Check 시작..."
 if ! health_check "$NEXT_PORT"; then
   error "Health Check 실패 -> 롤백 수행"
+  compose_down "$NEXT"
   exit 1;
 fi
 

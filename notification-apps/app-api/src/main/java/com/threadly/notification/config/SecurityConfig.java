@@ -63,6 +63,7 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         auth -> auth
             .requestMatchers(
+                "/actuator/**",
                 "/api/test/kafka",
                 "/ws/**")
             .permitAll()
