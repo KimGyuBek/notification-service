@@ -11,3 +11,9 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=notification
       - MONGO_INITDB_ROOT_PASSWORD=notification
     command: mongod --bind_ip_all
+    networks:
+      - service-network
+
+networks:
+  service-network:
+    external: true

@@ -60,6 +60,7 @@ health_check(){
   local port="$1"
   local url="http://localhost:${port}${HEALTH_PATH}"
 
+  log "$url"
   log "Health Check 시작..."
 
   local i
