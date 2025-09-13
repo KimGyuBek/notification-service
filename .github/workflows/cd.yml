@@ -85,6 +85,8 @@ jobs:
         run: |
           echo "SPRING_MONGO_URL=${{ secrets.SPRING_MONGO_URI }}" >> .env
           echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env
+          echo "MAIL_NAME=${{ secrets.MAIL_NAME }}" >> .env
+          echo "MAIL_PASSWORD=${{secrets.MAIL_PASSWORD }}" >> .env
           cp .env ./infra/notification-service
 
 
