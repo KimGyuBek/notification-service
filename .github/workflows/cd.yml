@@ -83,7 +83,7 @@ jobs:
 
       - name: 환경변수 생성 및 전송
         run: |
-          echo "SPRING_MONGO_URL=${{ secrets.SPRING_MONGO_URI }}" >> .env
+          echo "SPRING_MONGO_URI=${{ secrets.SPRING_MONGO_URI }}" >> .env
           echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env
           echo "MAIL_NAME=${{ secrets.MAIL_NAME }}" >> .env
           echo "MAIL_PASSWORD=${{secrets.MAIL_PASSWORD }}" >> .env
