@@ -6,7 +6,7 @@ BASE_DIR="/home/ubuntu/threadly"
 INFRA_DIR="$BASE_DIR/infra/notification-service"
 LOG_DIR="$BASE_DIR/logs/scripts"
 LOG_FILE="$LOG_DIR/notification-blue-green-deploy.log"
-ENV_PATH="/home/ubuntu/threadly/infra/notification-service/.env.notification"
+ENV_PATH="/home/ubuntu/threadly/infra/notification-service/.env
 NGINX_CONF="/etc/nginx/locations/notification.conf"
 HEALTH_PATH="/actuator/health"
 MAX_RETRIES=10
@@ -124,3 +124,4 @@ log "기존 버전($CURRENT) 종료 중..."
 compose_down "$CURRENT"
 
 log "======Deploy Finish======"
+

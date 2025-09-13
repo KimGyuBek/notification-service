@@ -83,8 +83,8 @@ jobs:
 
       - name: 환경변수 생성 및 전송
         run: |
-          echo "SPRING_MONGO_URL=${{ secrets.SPRING_MONGO_URI }}" >> .env.notification
-          echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env.notification
+          echo "SPRING_MONGO_URL=${{ secrets.SPRING_MONGO_URI }}" >> .env
+          echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env
           cp .env.notification ./infra/notification-service
 
 
