@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
 import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowAcceptMeta;
@@ -13,6 +12,7 @@ import com.threadly.notification.core.domain.notification.metadata.FollowMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowRequestMeta;
 import com.threadly.notification.core.domain.notification.metadata.PostCommentMeta;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;

@@ -6,8 +6,8 @@ import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.core.domain.notification.NotificationType;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.AfterEach;
@@ -59,9 +59,9 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals("test-actor-user");
-    assert actorProfile.nickname().equals("test-nickname");
-    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
+    assert actorProfile.getUserId().equals("test-actor-user");
+    assert actorProfile.getNickname().equals("test-nickname");
+    assert actorProfile.getProfileImageUrl().equals("https://test.com/profile.jpg");
   }
 
   @Order(2)
@@ -187,14 +187,14 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     assert data.eventId().equals("event2");
     PostLikeMeta metadata = (PostLikeMeta) data.metaData();
     assert metadata.postId().equals("post2");
-    assert data.actorProfile().userId().equals("liker2");
+    assert data.actorProfile().getUserId().equals("liker2");
     
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals("liker2");
-    assert actorProfile.nickname().equals("test-nickname");
-    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
+    assert actorProfile.getUserId().equals("liker2");
+    assert actorProfile.getNickname().equals("test-nickname");
+    assert actorProfile.getProfileImageUrl().equals("https://test.com/profile.jpg");
   }
 
   @Order(8)
@@ -223,9 +223,9 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals("test-actor-user");
-    assert actorProfile.nickname().equals("test-nickname");
-    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
+    assert actorProfile.getUserId().equals("test-actor-user");
+    assert actorProfile.getNickname().equals("test-nickname");
+    assert actorProfile.getProfileImageUrl().equals("https://test.com/profile.jpg");
   }
 
   @Order(9)
@@ -252,14 +252,14 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     GetNotificationDetailsApiResponse data = response.getData();
     PostLikeMeta metadata = (PostLikeMeta) data.metaData();
     assert metadata.postId().equals(testPostId);
-    assert data.actorProfile().userId().equals(testLikerId);
+    assert data.actorProfile().getUserId().equals(testLikerId);
     
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals(testLikerId);
-    assert actorProfile.nickname().equals("test-nickname");
-    assert actorProfile.profileImageUrl().equals("https://test.com/profile.jpg");
+    assert actorProfile.getUserId().equals(testLikerId);
+    assert actorProfile.getNickname().equals("test-nickname");
+    assert actorProfile.getProfileImageUrl().equals("https://test.com/profile.jpg");
   }
 
   @Order(10)
@@ -288,9 +288,9 @@ public class GetNotificationApiTest extends BaseNotificationApiTest {
     // ActorProfile 상세 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals("custom-liker");
-    assert actorProfile.nickname().equals(customNickname);
-    assert actorProfile.profileImageUrl().equals(customProfileUrl);
+    assert actorProfile.getUserId().equals("custom-liker");
+    assert actorProfile.getNickname().equals(customNickname);
+    assert actorProfile.getProfileImageUrl().equals(customProfileUrl);
   }
 
   @Order(11)

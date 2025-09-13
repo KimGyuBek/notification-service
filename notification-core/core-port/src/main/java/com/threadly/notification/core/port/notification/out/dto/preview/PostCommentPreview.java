@@ -1,6 +1,6 @@
 package com.threadly.notification.core.port.notification.out.dto.preview;
 
-import com.threadly.notification.core.domain.notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.domain.notification.metadata.NotificationMetaData;
 import com.threadly.notification.core.domain.notification.metadata.PostCommentMeta;
 

@@ -1,6 +1,6 @@
 package com.threadly.notification.core.service.notification;
 
-import com.threadly.notification.core.domain.notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.port.notification.out.NotificationPushPort;
 import com.threadly.notification.core.port.notification.out.dto.NotificationMessage;

@@ -5,8 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
 import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -68,7 +68,7 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
           assert notification.getNotificationType() == NotificationType.POST_LIKE;
           assert !notification.isRead(); // 기본적으로 읽지 않음
           assert notification.getActorProfile() != null;
-          assert notification.getActorProfile().userId().equals(ACTOR_USER_ID);
+          assert notification.getActorProfile().getUserId().equals(ACTOR_USER_ID);
         });
   }
 
@@ -113,9 +113,9 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
     // ActorProfile 검증
     ActorProfile actorProfile = data.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.userId().equals(ACTOR_USER_ID);
-    assert actorProfile.nickname().equals("API테스터");
-    assert actorProfile.profileImageUrl().equals("https://api-test.com/profile.jpg");
+    assert actorProfile.getUserId().equals(ACTOR_USER_ID);
+    assert actorProfile.getNickname().equals("API테스터");
+    assert actorProfile.getProfileImageUrl().equals("https://api-test.com/profile.jpg");
   }
 
   @Order(3)
@@ -156,9 +156,9 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
         accessToken, eventId3, status().isOk());
 
     // 각각 다른 ActorProfile 정보 확인
-    assert response1.getData().actorProfile().nickname().equals("액터1");
-    assert response2.getData().actorProfile().nickname().equals("액터2");
-    assert response3.getData().actorProfile().nickname().equals("액터3");
+    assert response1.getData().actorProfile().getNickname().equals("액터1");
+    assert response2.getData().actorProfile().getNickname().equals("액터2");
+    assert response3.getData().actorProfile().getNickname().equals("액터3");
   }
 
   @Order(4)
@@ -256,8 +256,8 @@ public class NotificationKafkaIntegrationTest extends BaseNotificationApiTest {
 
     assert firstResponse.isSuccess();
     assert lastResponse.isSuccess();
-    assert firstResponse.getData().actorProfile().nickname().equals("벌크액터0");
-    assert lastResponse.getData().actorProfile().nickname().equals("벌크액터9");
+    assert firstResponse.getData().actorProfile().getNickname().equals("벌크액터0");
+    assert lastResponse.getData().actorProfile().getNickname().equals("벌크액터9");
   }
 
   /**

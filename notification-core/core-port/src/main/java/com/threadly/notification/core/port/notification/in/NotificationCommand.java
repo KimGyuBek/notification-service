@@ -1,6 +1,6 @@
 package com.threadly.notification.core.port.notification.in;
 
-import com.threadly.notification.core.domain.notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import java.time.LocalDateTime;
 import java.util.Map;

@@ -6,7 +6,7 @@ import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -247,8 +247,8 @@ public class GetNotificationsByCursorApiTest extends BaseNotificationApiTest {
     NotificationDetails firstNotification = data.content().get(0);
     ActorProfile actorProfile = firstNotification.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.nickname().equals(customNickname);
-    assert actorProfile.profileImageUrl().equals(customProfileUrl);
+    assert actorProfile.getNickname().equals(customNickname);
+    assert actorProfile.getProfileImageUrl().equals(customProfileUrl);
   }
 
   @Order(10)

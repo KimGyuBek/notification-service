@@ -2,7 +2,7 @@ package com.threadly.notification.core.service.notification;
 
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.exception.notification.NotificationException;
-import com.threadly.notification.core.domain.notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;

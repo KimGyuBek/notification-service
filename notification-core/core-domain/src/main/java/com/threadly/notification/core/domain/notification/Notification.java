@@ -1,6 +1,7 @@
 package com.threadly.notification.core.domain.notification;
 
 import com.threadly.notification.core.domain.notification.metadata.NotificationMetaData;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

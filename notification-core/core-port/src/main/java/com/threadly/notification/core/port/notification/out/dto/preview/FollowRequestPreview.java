@@ -1,6 +1,6 @@
 package com.threadly.notification.core.port.notification.out.dto.preview;
 
-import com.threadly.notification.core.domain.notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 
 public record FollowRequestPreview(ActorProfile actorProfile) implements Preview {
 

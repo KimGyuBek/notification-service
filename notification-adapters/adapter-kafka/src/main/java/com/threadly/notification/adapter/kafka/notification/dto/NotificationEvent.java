@@ -2,7 +2,7 @@ package com.threadly.notification.adapter.kafka.notification.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.threadly.notification.core.domain.notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import java.time.LocalDateTime;
 import java.util.Map;

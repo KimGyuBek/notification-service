@@ -1,4 +1,4 @@
-package com.threadly.notification.core.domain.notification;
+package com.threadly.notification.core.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
