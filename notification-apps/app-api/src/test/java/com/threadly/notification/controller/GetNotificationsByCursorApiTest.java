@@ -3,14 +3,13 @@ package com.threadly.notification.controller;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.notification.CommonResponse;
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -232,7 +231,7 @@ public class GetNotificationsByCursorApiTest extends BaseNotificationApiTest {
     String customNickname = "테스트닉네임";
     String customProfileUrl = "https://test.com/custom.jpg";
 
-    NotificationEntity notification = createTestNotification(VALID_USER_ID, "test-event",
+    NotificationDoc notification = createTestNotification(VALID_USER_ID, "test-event",
         "test-post", "test-actor-user", customNickname, customProfileUrl);
     notificationRepository.save(notification);
 
@@ -248,8 +247,8 @@ public class GetNotificationsByCursorApiTest extends BaseNotificationApiTest {
     NotificationDetails firstNotification = data.content().get(0);
     ActorProfile actorProfile = firstNotification.actorProfile();
     assert actorProfile != null;
-    assert actorProfile.nickname().equals(customNickname);
-    assert actorProfile.profileImageUrl().equals(customProfileUrl);
+    assert actorProfile.getNickname().equals(customNickname);
+    assert actorProfile.getProfileImageUrl().equals(customProfileUrl);
   }
 
   @Order(10)
@@ -261,13 +260,13 @@ public class GetNotificationsByCursorApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
 
     // 시간차를 두고 알림 생성
-    NotificationEntity oldNotification = createTestNotification(VALID_USER_ID, "old-event",
+    NotificationDoc oldNotification = createTestNotification(VALID_USER_ID, "old-event",
         "old-post", "old-liker");
     notificationRepository.save(oldNotification);
 
     Thread.sleep(100); // 시간 차이 확보
 
-    NotificationEntity newNotification = createTestNotification(VALID_USER_ID, "new-event",
+    NotificationDoc newNotification = createTestNotification(VALID_USER_ID, "new-event",
         "new-post", "new-liker");
     notificationRepository.save(newNotification);
 
@@ -291,7 +290,7 @@ public class GetNotificationsByCursorApiTest extends BaseNotificationApiTest {
    */
   private void createAndSaveMultipleNotifications(String receiverId, int count) {
     for (int i = 0; i < count; i++) {
-      NotificationEntity notification = createTestNotification(receiverId,
+      NotificationDoc notification = createTestNotification(receiverId,
           "event-" + Math.random(), "post-" + i, "liker-" + i, "nickname-" + i,
           "https://test.com/profile" + i + ".jpg");
       notificationRepository.save(notification);

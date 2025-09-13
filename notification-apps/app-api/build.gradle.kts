@@ -4,6 +4,7 @@ dependencies {
     implementation(project(":notification-adapters:adapter-persistence"))
     implementation(project(":notification-adapters:adapter-redis"))
     implementation(project(":notification-adapters:adapter-smtp"))
+    implementation(project(":notification-adapters:adapter-websocket"))
 
     implementation(project(":notification-commons"))
 

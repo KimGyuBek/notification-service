@@ -2,16 +2,17 @@ package com.threadly.notification.adapter.kafka.notification.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
-import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import java.time.LocalDateTime;
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class NotificationEvent {
 
   /*eventId*/
@@ -47,16 +48,5 @@ public class NotificationEvent {
     this.occurredAt = occurredAt;
     this.actorProfile = actorProfile;
     this.metadata = metadata;
-  }
-
-  public NotificationCommand toCommand() {
-    return new NotificationCommand(
-        this.getEventId(),
-        this.getReceiverUserId(),
-        this.getNotificationType(),
-        this.getMetadata(),
-        this.getOccurredAt(),
-        this.getActorProfile()
-    );
   }
 }

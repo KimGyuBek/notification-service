@@ -12,6 +12,7 @@ import com.threadly.notification.core.port.notification.out.NotificationQueryPor
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class NotificationQueryQueryService implements NotificationQueryUseCase {
 
   private final NotificationQueryPort notificationQueryPort;
 
+  @Transactional(readOnly = true)
   @Override
   public GetNotificationDetailsApiResponse findNotificationDetail(String userId,
       String eventId) {
@@ -48,8 +50,10 @@ public class NotificationQueryQueryService implements NotificationQueryUseCase {
     );
   }
 
+  @Transactional(readOnly = true)
   @Override
-  public CursorPageApiResponse<NotificationDetails> findNotificationByCursor(GetNotificationsQuery query) {
+  public CursorPageApiResponse<NotificationDetails> findNotificationByCursor(
+      GetNotificationsQuery query) {
 
     List<NotificationDetails> notifications = notificationQueryPort.fetchAllByCursor(query);
 

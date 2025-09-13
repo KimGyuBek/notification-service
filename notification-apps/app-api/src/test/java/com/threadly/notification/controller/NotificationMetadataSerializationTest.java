@@ -4,8 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
-import com.threadly.notification.core.domain.notification.Notification.ActorProfile;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowAcceptMeta;
@@ -13,6 +12,7 @@ import com.threadly.notification.core.domain.notification.metadata.FollowMeta;
 import com.threadly.notification.core.domain.notification.metadata.FollowRequestMeta;
 import com.threadly.notification.core.domain.notification.metadata.PostCommentMeta;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
+import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -52,7 +52,7 @@ public class NotificationMetadataSerializationTest extends BaseNotificationApiTe
     Awaitility.await()
         .atMost(10, TimeUnit.SECONDS)
         .untilAsserted(() -> {
-          Optional<NotificationEntity> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
+          Optional<NotificationDoc> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
           assert savedEntity.isPresent();
           assert savedEntity.get().getNotificationType() == NotificationType.POST_LIKE;
         });
@@ -84,7 +84,7 @@ public class NotificationMetadataSerializationTest extends BaseNotificationApiTe
     Awaitility.await()
         .atMost(10, TimeUnit.SECONDS)
         .untilAsserted(() -> {
-          Optional<NotificationEntity> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
+          Optional<NotificationDoc> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
           assert savedEntity.isPresent();
           assert savedEntity.get().getNotificationType() == NotificationType.COMMENT_ADDED;
         });
@@ -118,7 +118,7 @@ public class NotificationMetadataSerializationTest extends BaseNotificationApiTe
     Awaitility.await()
         .atMost(10, TimeUnit.SECONDS)
         .untilAsserted(() -> {
-          Optional<NotificationEntity> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
+          Optional<NotificationDoc> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
           assert savedEntity.isPresent();
           assert savedEntity.get().getNotificationType() == NotificationType.COMMENT_LIKE;
         });
@@ -152,7 +152,7 @@ public class NotificationMetadataSerializationTest extends BaseNotificationApiTe
     Awaitility.await()
         .atMost(10, TimeUnit.SECONDS)
         .untilAsserted(() -> {
-          Optional<NotificationEntity> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
+          Optional<NotificationDoc> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
           assert savedEntity.isPresent();
           assert savedEntity.get().getNotificationType() == NotificationType.FOLLOW_REQUEST;
         });
@@ -183,7 +183,7 @@ public class NotificationMetadataSerializationTest extends BaseNotificationApiTe
     Awaitility.await()
         .atMost(10, TimeUnit.SECONDS)
         .untilAsserted(() -> {
-          Optional<NotificationEntity> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
+          Optional<NotificationDoc> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
           assert savedEntity.isPresent();
           assert savedEntity.get().getNotificationType() == NotificationType.FOLLOW;
         });
@@ -214,7 +214,7 @@ public class NotificationMetadataSerializationTest extends BaseNotificationApiTe
     Awaitility.await()
         .atMost(10, TimeUnit.SECONDS)
         .untilAsserted(() -> {
-          Optional<NotificationEntity> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
+          Optional<NotificationDoc> savedEntity = notificationRepository.findByEventIdAndReceiverId(eventId, VALID_USER_ID);
           assert savedEntity.isPresent();
           assert savedEntity.get().getNotificationType() == NotificationType.FOLLOW_ACCEPT;
         });

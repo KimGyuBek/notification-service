@@ -19,6 +19,7 @@ pluginManagement {
     include("notification-adapters:adapter-persistence")
     include("notification-adapters:adapter-kafka")
     include("notification-adapters:adapter-smtp")
+    include("notification-adapters:adapter-websocket")
 
     include("notification-apps:app-api")
 

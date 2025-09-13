@@ -40,14 +40,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(new ErrorResponse(ex.getErrorCode()));
   }
 
-//  /*Email Verification*/
-//  @ExceptionHandler(EmailVerificationException.class)
-//  public ResponseEntity<ErrorResponse> handleMailSenderException(EmailVerificationException ex,
-//      WebRequest request) {
-//    return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
-//        .body(new ErrorResponse(ex.getErrorCode()));
-//  }
-
   /*Token Exception*/
   @ExceptionHandler(TokenException.class)
   public ResponseEntity<ErrorResponse> handleTokenException(TokenException ex, WebRequest request) {

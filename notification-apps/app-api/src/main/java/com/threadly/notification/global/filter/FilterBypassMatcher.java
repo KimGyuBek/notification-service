@@ -9,7 +9,8 @@ import org.springframework.util.AntPathMatcher;
 public class FilterBypassMatcher {
 
   public static final List<String> WHITE_LIST = List.of(
-      "/api/test/kafka"
+      "/api/test/kafka",
+      "/ws/**"
   );
 
   private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();

@@ -62,7 +62,10 @@ public class SecurityConfig {
   private static void configureAuthorization(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(
         auth -> auth
-            .requestMatchers("/api/test/kafka").permitAll()
+            .requestMatchers(
+                "/api/test/kafka",
+                "/ws/**")
+            .permitAll()
             .anyRequest().authenticated()
     );
   }

@@ -3,7 +3,7 @@ package com.threadly.notification.controller;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.notification.CommonResponse;
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
     // given
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // 읽기 전 상태 확인
@@ -66,7 +66,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
     // given
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // 첫 번째 읽음 처리
@@ -118,7 +118,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
     // given
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity otherUserNotification = createTestNotification(OTHER_USER_ID);
+    NotificationDoc otherUserNotification = createTestNotification(OTHER_USER_ID);
     notificationRepository.save(otherUserNotification);
 
     // when
@@ -136,7 +136,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
   void markAsReadNotification_WithoutAuthentication_ShouldReturnBadRequest() throws Exception {
     // given
     String emptyToken = "";
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // when
@@ -155,7 +155,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
     // given
     String expiredToken = accessTokenTestUtils.generateExpiredAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
-    NotificationEntity notification = createTestNotification(VALID_USER_ID);
+    NotificationDoc notification = createTestNotification(VALID_USER_ID);
     notificationRepository.save(notification);
 
     // when
@@ -177,11 +177,11 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
         USER_STATUS_TYPE);
 
     // 같은 사용자의 여러 알림 생성
-    NotificationEntity notification1 = createTestNotification(VALID_USER_ID, "event1", "post1",
+    NotificationDoc notification1 = createTestNotification(VALID_USER_ID, "event1", "post1",
         "liker1");
-    NotificationEntity notification2 = createTestNotification(VALID_USER_ID, "event2", "post2",
+    NotificationDoc notification2 = createTestNotification(VALID_USER_ID, "event2", "post2",
         "liker2");
-    NotificationEntity notification3 = createTestNotification(VALID_USER_ID, "event3", "post3",
+    NotificationDoc notification3 = createTestNotification(VALID_USER_ID, "event3", "post3",
         "liker3");
 
     notificationRepository.save(notification1);
@@ -220,7 +220,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
     String accessToken = accessTokenTestUtils.generateAccessToken(VALID_USER_ID, USER_TYPE,
         USER_STATUS_TYPE);
     String testEventId = "persistent-test-event";
-    NotificationEntity notification = createTestNotification(VALID_USER_ID, testEventId,
+    NotificationDoc notification = createTestNotification(VALID_USER_ID, testEventId,
         "test-post", "test-actor-user", "test-nickname", "https://test.com/profile.jpg");
     notificationRepository.save(notification);
 
@@ -233,7 +233,7 @@ public class MarkAsReadNotificationApiTest extends BaseNotificationApiTest {
     assert response.isSuccess();
 
     // DB에서 직접 조회하여 읽음 상태 확인
-    Optional<NotificationEntity> updatedNotification = notificationRepository.findByEventIdAndReceiverId(
+    Optional<NotificationDoc> updatedNotification = notificationRepository.findByEventIdAndReceiverId(
         testEventId, VALID_USER_ID);
     assert updatedNotification.isPresent();
     assert updatedNotification.get().isRead(); // DB에 영속화된 읽음 상태 확인

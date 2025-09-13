@@ -1,6 +1,6 @@
 package com.threadly.notification.adapter.persistence.notification.repository;
 
-import com.threadly.notification.adapter.persistence.notification.entity.NotificationEntity;
+import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class NotificationCustomRepository {
   public void updateIsReadByEventId(String eventId, boolean isRead) {
     Query query = new Query(Criteria.where("eventId").is(eventId));
     Update update = new Update().set("isRead", isRead);
-    mongoTemplate.updateFirst(query, update, NotificationEntity.class);
+    mongoTemplate.updateFirst(query, update, NotificationDoc.class);
   }
 
   /**
@@ -41,7 +41,7 @@ public class NotificationCustomRepository {
   public void updateAllIsReadByReceiverId(String receiverId) {
     Query query = new Query(Criteria.where("receiverId").is(receiverId));
     Update update = new Update().set("isRead", true);
-    mongoTemplate.updateMulti(query, update, NotificationEntity.class);
+    mongoTemplate.updateMulti(query, update, NotificationDoc.class);
   }
 
   /**
@@ -50,7 +50,7 @@ public class NotificationCustomRepository {
    * @param getNotificationsQuery
    * @return
    */
-  public List<NotificationEntity> findNotificationsByCursor(
+  public List<NotificationDoc> findNotificationsByCursor(
       GetNotificationsQuery getNotificationsQuery) {
     Query query = new Query();
 
@@ -74,11 +74,11 @@ public class NotificationCustomRepository {
       query.addCriteria(Criteria.where("occurredAt").lt(getNotificationsQuery.cursorTimestamp()));
     }
 
-    // 정렬: createdAt 내림차순, _id 내림차순 (같은 시간대에서는 _id로 구분)
+    // 정렬: occurredAt 내림차순, _id 내림차순 (같은 시간대에서는 _id로 구분)
     query.with(Sort.by(Direction.DESC, "occurredAt").and(Sort.by(Direction.DESC, "eventId")));
     query.limit(getNotificationsQuery.limit() + 1);
 
-    return mongoTemplate.find(query, NotificationEntity.class);
+    return mongoTemplate.find(query, NotificationDoc.class);
   }
 
 }
