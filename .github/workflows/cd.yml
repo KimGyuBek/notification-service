@@ -85,7 +85,7 @@ jobs:
         run: |
           echo "SPRING_MONGO_URL=${{ secrets.SPRING_MONGO_URI }}" >> .env.notification
           echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env.notification
-          cp .env ./infra/notification-service
+          cp .env.notification ./infra/notification-service
 
 
       - name: SCP 전송
