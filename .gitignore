@@ -39,3 +39,4 @@ out/
 infra/docker-volumes/
 json/
 docs/
+logs/
