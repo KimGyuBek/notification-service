@@ -1,0 +1,19 @@
+spring:
+  kafka:
+    listener:
+      concurrency: 1
+    bootstrap-servers: kafka:9092
+  config:
+    import:
+      - classpath:application-kafka.yml
+      - classpath:application-persistence.yml
+
+logging:
+  level:
+    com.threadly.notification: DEBUG
+    org.apache.kafka: WARN
+
+properties:
+  email:
+    verification-url: https://api.threadly.kr
+

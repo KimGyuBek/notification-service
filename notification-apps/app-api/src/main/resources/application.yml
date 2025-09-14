@@ -3,7 +3,7 @@ spring:
     import:
       - classpath:application-kafka.yml
       - classpath:application-persistence.yml
-      - classpath:application-redis-test.yml
+      - classpath:application-redis-prod.yml
   mail:
     host: smtp.naver.com
     port: 587
@@ -22,3 +22,21 @@ mail:
 
 server:
   port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - metrics
+          - prometheus
+          - health
+          - info
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
