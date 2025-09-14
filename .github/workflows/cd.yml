@@ -2,19 +2,16 @@ name: CD
 
 on:
   push:
-    branches: [ chore/TLY-107-CD ]
-
-#  push:
-#    branches: [ master ]
-#    paths-ignore:
-#      - 'README.md'
-#      - 'docs/**'
-#      - '.github/**'
-#      - '.gitignore'
-#  workflow_dispatch:
-#concurrency:
-#  group: deploy-master
-#  cancel-in-progress: true
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.github/**'
+      - '.gitignore'
+  workflow_dispatch:
+concurrency:
+  group: deploy-master
+  cancel-in-progress: true
 
 jobs:
   build:
