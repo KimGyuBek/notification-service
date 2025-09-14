@@ -2,6 +2,7 @@ package com.threadly.notification.adapter.persistence.notification.repository;
 
 import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -52,33 +53,52 @@ public class NotificationCustomRepository {
    */
   public List<NotificationDoc> findNotificationsByCursor(
       GetNotificationsQuery getNotificationsQuery) {
-    Query query = new Query();
+    var criteria = Criteria.where("receiverId").is(getNotificationsQuery.userId());
 
-    query.addCriteria(Criteria.where("receiverId").is(getNotificationsQuery.userId()));
+    return mongoTemplate.find(applyCursorCriteria(getNotificationsQuery.cursorTimestamp(),
+            getNotificationsQuery.cursorId(), getNotificationsQuery.limit(), criteria),
+        NotificationDoc.class);
+  }
 
-    // 커서 기반 페이징: createdAt과 _id를 함께 사용
-    if (getNotificationsQuery.cursorTimestamp() != null
-        && getNotificationsQuery.cursorId() != null) {
+  /**
+   * 읽지 않은 알림 목록 커서 기반 조회
+   *
+   * @param getNotificationsQuery
+   * @return
+   */
+  public List<NotificationDoc> findUnreadByCursor(GetNotificationsQuery getNotificationsQuery) {
+
+    var criteria = Criteria.where("receiverId").is(getNotificationsQuery.userId())
+        .and("isRead").is(false);
+
+    return mongoTemplate.find(applyCursorCriteria(getNotificationsQuery.cursorTimestamp(),
+            getNotificationsQuery.cursorId(), getNotificationsQuery.limit(), criteria),
+        NotificationDoc.class);
+  }
+
+  private Query applyCursorCriteria(LocalDateTime cursorTimestamp, String cursorId, int limit,
+      Criteria base) {
+    Criteria root = base;
+
+    if (cursorTimestamp != null
+        && cursorId != null) {
       Criteria cursorCriteria = new Criteria().orOperator(
-          // createdAt이 커서보다 작거나
-          Criteria.where("occurredAt").lt(getNotificationsQuery.cursorTimestamp()),
-          // createdAt이 같고 _id가 커서보다 작은 경우
+          Criteria.where("occurredAt").lt(cursorTimestamp),
           new Criteria().andOperator(
-              Criteria.where("occurredAt").is(getNotificationsQuery.cursorTimestamp()),
-              Criteria.where("eventId").lt(getNotificationsQuery.cursorId())
-          )
+              Criteria.where("occurredAt").is(cursorTimestamp),
+              Criteria.where("eventId").lt(cursorId))
       );
-      query.addCriteria(cursorCriteria);
-    } else if (getNotificationsQuery.cursorTimestamp() != null) {
-      // cursorId가 없으면 timestamp만 사용
-      query.addCriteria(Criteria.where("occurredAt").lt(getNotificationsQuery.cursorTimestamp()));
+
+      root.andOperator(base, cursorCriteria);
+    } else if (cursorTimestamp != null) {
+      Criteria cursorcCriteria = new Criteria().where("occurredAt").lt(cursorTimestamp);
+      root.andOperator(base, cursorcCriteria);
     }
 
-    // 정렬: occurredAt 내림차순, _id 내림차순 (같은 시간대에서는 _id로 구분)
-    query.with(Sort.by(Direction.DESC, "occurredAt").and(Sort.by(Direction.DESC, "eventId")));
-    query.limit(getNotificationsQuery.limit() + 1);
-
-    return mongoTemplate.find(query, NotificationDoc.class);
+    return Query.query(base)
+        .with(Sort.by(Direction.DESC, "occurredAt").and(Sort.by(Direction.DESC, "eventId")))
+        .limit(limit + 1);
   }
+
 
 }

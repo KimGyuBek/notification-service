@@ -31,7 +31,7 @@ public class NotificationController {
 
 
   /**
-   * 내 알림 목록 커서 기반 조회
+   * 내 전체 알림 목록 커서 기반 조회
    *
    * @param user
    * @return
@@ -45,6 +45,30 @@ public class NotificationController {
 
     return ResponseEntity.ok().body(
         notificationQueryUseCase.findNotificationByCursor(
+            new GetNotificationsQuery(
+                user.getUserId(), cursorTimestamp, cursorId, limit)
+        )
+    );
+  }
+
+  /**
+   * 읽지 않은 알림 목록 커서 기반 조회
+   * @param user
+   * @param cursorTimestamp
+   * @param cursorId
+   * @param limit
+   * @return
+   */
+  @GetMapping("/unread")
+  public ResponseEntity<CursorPageApiResponse> getUnreadNotifications(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit
+  ) {
+
+    return ResponseEntity.ok().body(
+        notificationQueryUseCase.findUnreadNotificationByCursor(
             new GetNotificationsQuery(
                 user.getUserId(), cursorTimestamp, cursorId, limit)
         )
