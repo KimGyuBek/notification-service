@@ -86,7 +86,7 @@ public class NotificationCustomRepository {
           Criteria.where("occurredAt").lt(cursorTimestamp),
           new Criteria().andOperator(
               Criteria.where("occurredAt").is(cursorTimestamp),
-              Criteria.where("eventId").lt(cursorId))
+              Criteria.where("sortId").lt(cursorId))
       );
 
       root.andOperator(base, cursorCriteria);
@@ -96,7 +96,7 @@ public class NotificationCustomRepository {
     }
 
     return Query.query(base)
-        .with(Sort.by(Direction.DESC, "occurredAt").and(Sort.by(Direction.DESC, "eventId")))
+        .with(Sort.by(Direction.DESC, "occurredAt").and(Sort.by(Direction.DESC, "sortId")))
         .limit(limit + 1);
   }
 
