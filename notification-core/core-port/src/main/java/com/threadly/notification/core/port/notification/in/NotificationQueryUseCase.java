@@ -24,4 +24,12 @@ public interface NotificationQueryUseCase {
    */
   CursorPageApiResponse findNotificationByCursor(GetNotificationsQuery query);
 
+  /**
+   * 읽지 않은 알림 목록 커서 기반 조회
+   * @param query
+   * @return
+   */
+  CursorPageApiResponse findUnreadNotificationByCursor(GetNotificationsQuery query);
+
+
 }

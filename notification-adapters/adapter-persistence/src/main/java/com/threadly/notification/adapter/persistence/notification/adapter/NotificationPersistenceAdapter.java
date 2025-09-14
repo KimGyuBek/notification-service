@@ -63,6 +63,22 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
     return notificationCustomRepository.findNotificationsByCursor(query).stream().map(
         entity -> new NotificationDetails(
             entity.getEventId(),
+            entity.getSortId(),
+            entity.getReceiverId(),
+            entity.getNotificationType(),
+            entity.getOccurredAt(),
+            entity.getActorProfile(),
+            entity.isRead()
+        )
+    ).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<NotificationDetails> fetchUnreadByCursor(GetNotificationsQuery query) {
+    return notificationCustomRepository.findUnreadByCursor(query).stream().map(
+        entity -> new NotificationDetails(
+            entity.getEventId(),
+            entity.getSortId(),
             entity.getReceiverId(),
             entity.getNotificationType(),
             entity.getOccurredAt(),

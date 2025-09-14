@@ -83,6 +83,45 @@ public class BaseNotificationApiTest extends BaseApiTest {
   }
 
   /**
+   * 읽지 않은 알림 목록 커서 기반 조회 요청
+   *
+   * @return
+   */
+  public CommonResponse<CursorPageApiResponse<NotificationDetails>> getUnreadNotificationsByCursorRequest(
+      String accessToken,
+      LocalDateTime cursorTimestamp,
+      String cursorId,
+      int limit,
+      ResultMatcher expectedStatus)
+      throws Exception {
+
+    StringBuilder urlBuilder = new StringBuilder("/api/notifications/unread");
+    String separator = "?";
+
+    if (cursorTimestamp != null) {
+      urlBuilder.append(separator).append("cursor_timestamp=").append(cursorTimestamp);
+      separator = "&";
+    }
+
+    if (cursorId != null) {
+      urlBuilder.append(separator).append("cursor_id=").append(cursorId);
+      separator = "&";
+    }
+
+    if (limit > 0) {
+      urlBuilder.append(separator).append("limit=").append(limit);
+    }
+
+    return sendGetRequest(
+        accessToken,
+        urlBuilder.toString(),
+        expectedStatus,
+        new TypeReference<>() {
+        }
+    );
+  }
+
+  /**
    * 알림 삭제 요청
    *
    * @return
@@ -135,7 +174,8 @@ public class BaseNotificationApiTest extends BaseApiTest {
         accessToken,
         "/api/notifications/" + eventId + "/read",
         expectedStatus,
-        new TypeReference<>() { },
+        new TypeReference<>() {
+        },
         Map.of("Authorization", "Bearer " + accessToken)
     );
   }
@@ -153,7 +193,8 @@ public class BaseNotificationApiTest extends BaseApiTest {
         accessToken,
         "/api/notifications/read-all",
         expectedStatus,
-        new TypeReference<>() { },
+        new TypeReference<>() {
+        },
         Map.of("Authorization", "Bearer " + accessToken)
     );
   }
@@ -180,10 +221,19 @@ public class BaseNotificationApiTest extends BaseApiTest {
    */
   public NotificationDoc createTestNotification(String receiverId, String eventId, String postId,
       String actorUserId, String nickname, String profileImageUrl) {
+    return createTestNotification(receiverId, eventId, postId, actorUserId, nickname,
+        profileImageUrl, false);
+  }
+
+  /**
+   * 테스트용 알림 엔티티 생성 (읽음 상태 포함)
+   */
+  public NotificationDoc createTestNotification(String receiverId, String eventId, String postId,
+      String actorUserId, String nickname, String profileImageUrl, boolean isRead) {
     PostLikeMeta metadata = new PostLikeMeta(postId);
     ActorProfile actorProfile = new ActorProfile(actorUserId, nickname, profileImageUrl);
 
-    return new NotificationDoc(
+    NotificationDoc notification = new NotificationDoc(
         eventId,
         receiverId,
         NotificationType.POST_LIKE,
@@ -191,6 +241,12 @@ public class BaseNotificationApiTest extends BaseApiTest {
         LocalDateTime.now(),
         actorProfile
     );
+
+    if (isRead) {
+      notification.markAsRead();
+    }
+
+    return notification;
   }
 
 }
