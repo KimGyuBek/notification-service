@@ -4,7 +4,10 @@
       "Bash(docker-compose:*)",
       "Bash(sudo rm:*)",
       "Bash(docker exec:*)",
-      "Bash(docker logs:*)"
+      "Bash(docker logs:*)",
+      "Bash(./gradlew test:*)",
+      "Bash(./gradlew:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

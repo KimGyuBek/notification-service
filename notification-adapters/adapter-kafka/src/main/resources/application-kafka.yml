@@ -1,13 +1,40 @@
 spring:
   cloud:
     function:
-      definition: notification;
+      definition: notification; mail;
     stream:
-      binder:
-        brokers: localhost:9092
       bindings:
         notification-in-0:
           destination: notification
-          content-type: application/json
           group: notification-consumer
-          consumer.max-attempts: 2
+          content-type: application/json
+          consumer:
+            use-native-decoding: true
+            max-attempts: 2
+        mail-in-0:
+          destination: mail
+          group: mail-consumer
+          content-type: application/json
+          consumer:
+            use-native-decoding: true
+            max-attempts: 2
+      kafka:
+        binder:
+          brokers: localhost:9092
+        bindings:
+          mail-in-0:
+            consumer:
+              configuration:
+                key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+                spring.json.trusted.packages: com.threadly.notification.adapter.kafka.mail.dto
+                spring.json.use.type.headers: false
+                spring.json.value.default.type: com.threadly.notification.adapter.kafka.mail.dto.MailEvent
+          notification-in-0:
+            consumer:
+              configuration:
+                key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+                spring.json.trusted.packages: com.threadly.notification.adapter.kafka.notification.dto
+                spring.json.use.type.headers: false
+                spring.json.value.default.type: com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent

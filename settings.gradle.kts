@@ -15,10 +15,18 @@ pluginManagement {
         }
     }
 
-    include("notification-apps:app-api")
+    include("notification-adapters:adapter-redis")
     include("notification-adapters:adapter-persistence")
     include("notification-adapters:adapter-kafka")
+    include("notification-adapters:adapter-smtp")
+    include("notification-adapters:adapter-websocket")
+
+    include("notification-apps:app-api")
+
+    include("notification-commons")
+
     include("notification-core:core-domain")
     include("notification-core:core-service")
     include("notification-core:core-port")
+
 }

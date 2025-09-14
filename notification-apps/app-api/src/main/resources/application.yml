@@ -1,7 +1,42 @@
 spring:
-  application:
-    name: notification-service
+  config:
+    import:
+      - classpath:application-kafka.yml
+      - classpath:application-persistence.yml
+      - classpath:application-redis-prod.yml
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: ${MAIL.NAME}
+    password: ${MAIL.PASSWORD}
+    properties:
+      mail:
+        smtp:
+          debug: true
+          auth: true
+        starttls:
+          enable: true
 
-  # Profile 설정
-  profiles:
-    active: dev
+mail:
+  from: rlarbqor00@naver.com
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - metrics
+          - prometheus
+          - health
+          - info
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}

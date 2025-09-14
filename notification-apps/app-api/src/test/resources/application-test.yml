@@ -1,0 +1,9 @@
+jwt:
+  secret: jGd2pZtv0G7pQVrjczv78U0lrRQ4qOmY2va6qin7TUmxlliB6DwdTXwnDzKD/RjxNrUAqdaxCqZ4JFu+TX1+uw==
+
+spring:
+  config:
+    import:
+      - classpath:application-kafka.yml
+      - classpath:application-persistence.yml
+      - classpath:application-redis-test.yml
