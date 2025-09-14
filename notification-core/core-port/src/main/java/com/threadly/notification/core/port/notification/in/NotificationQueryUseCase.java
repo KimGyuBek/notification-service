@@ -3,6 +3,7 @@ package com.threadly.notification.core.port.notification.in;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
+import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
 
 /**
  * Notification 조회 관련 usecase
@@ -22,14 +23,14 @@ public interface NotificationQueryUseCase {
    * @param query
    * @return
    */
-  CursorPageApiResponse findNotificationByCursor(GetNotificationsQuery query);
+  CursorPageApiResponse<NotificationDetails> findNotificationByCursor(GetNotificationsQuery query);
 
   /**
    * 읽지 않은 알림 목록 커서 기반 조회
    * @param query
    * @return
    */
-  CursorPageApiResponse findUnreadNotificationByCursor(GetNotificationsQuery query);
+  CursorPageApiResponse<NotificationDetails> findUnreadNotificationByCursor(GetNotificationsQuery query);
 
 
 }
