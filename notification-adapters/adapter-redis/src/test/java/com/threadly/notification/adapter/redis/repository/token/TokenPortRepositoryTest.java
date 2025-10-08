@@ -3,6 +3,7 @@ package com.threadly.notification.adapter.redis.repository.token;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.threadly.notification.adapter.redis.token.TokenPortRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;

@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.notification.BaseApiTest;
 import com.threadly.notification.CommonResponse;
-import com.threadly.notification.adapter.redis.repository.token.TokenPortRepository;
+import com.threadly.notification.adapter.redis.token.TokenPortRepository;
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.utils.AccessTokenTestUtils;
 import org.junit.jupiter.api.DisplayName;

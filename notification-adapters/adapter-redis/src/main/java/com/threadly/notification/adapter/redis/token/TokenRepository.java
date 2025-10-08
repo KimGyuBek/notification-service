@@ -1,24 +1,19 @@
-package com.threadly.notification.adapter.redis.repository.token;
+package com.threadly.notification.adapter.redis.token;
 
-import com.threadly.notification.core.port.token.out.FetchTokenPort;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 /**
- * token redis 저장 repository
+ * TokenRepository
  */
-
 @Repository
 @RequiredArgsConstructor
-@Slf4j
-public class TokenPortRepository implements FetchTokenPort {
+public class TokenRepository {
 
   private final RedisTemplate<String, String> redisTemplate;
 
 
-  @Override
   public boolean existsBlackListTokenByAccessToken(String accessToken) {
     if (accessToken == null) {
       throw new NullPointerException("Access token is null");
@@ -35,4 +30,7 @@ public class TokenPortRepository implements FetchTokenPort {
   private static String generateBlackListKey(String accessToken) {
     return "token:blacklist:" + accessToken;
   }
+
+
+
 }
