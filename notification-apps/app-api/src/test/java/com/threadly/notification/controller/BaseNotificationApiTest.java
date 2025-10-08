@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.notification.BaseApiTest;
 import com.threadly.notification.CommonResponse;
 import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
-import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
+import com.threadly.notification.adapter.persistence.notification.repository.NotificationMongoRepository;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
@@ -24,7 +24,7 @@ public class BaseNotificationApiTest extends BaseApiTest {
   public AccessTokenTestUtils accessTokenTestUtils;
 
   @Autowired
-  public MongoNotificationRepository notificationRepository;
+  public NotificationMongoRepository notificationRepository;
 
   /**
    * 알림 상세 정보 조회 요청

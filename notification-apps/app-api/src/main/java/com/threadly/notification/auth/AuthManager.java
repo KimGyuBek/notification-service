@@ -1,7 +1,7 @@
 package com.threadly.notification.auth;
 
 import com.threadly.notification.commons.security.JwtTokenProvider;
-import com.threadly.notification.core.domain.user.UserStatusType;
+import com.threadly.notification.core.domain.user.UserStatus;
 import com.threadly.notification.core.port.token.out.FetchTokenPort;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +21,17 @@ public class AuthManager {
   public Authentication getAuthentication(String accessToken) {
     /*token에서 claim 추출*/
     String userId = jwtTokenProvider.getUserId(accessToken);
-    UserStatusType userStatusType = jwtTokenProvider.getUserStatusType(accessToken);
+    UserStatus userStatus = jwtTokenProvider.getUserStatusType(accessToken);
 
     /*권한 설정*/
     List<SimpleGrantedAuthority> authorities = List.of(
-        new SimpleGrantedAuthority("ROLE_" + userStatusType.name())
+        new SimpleGrantedAuthority("ROLE_" + userStatus.name())
     );
 
     /*인증 객체 생성*/
     JwtAuthenticationUser authenticationUser = new JwtAuthenticationUser(
         userId,
-        userStatusType,
+        userStatus,
         authorities
     );
 

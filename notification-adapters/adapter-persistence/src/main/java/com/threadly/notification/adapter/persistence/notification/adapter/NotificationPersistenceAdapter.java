@@ -2,7 +2,7 @@ package com.threadly.notification.adapter.persistence.notification.adapter;
 
 import com.threadly.notification.adapter.persistence.notification.doc.NotificationDoc;
 import com.threadly.notification.adapter.persistence.notification.mapper.NotificationMapper;
-import com.threadly.notification.adapter.persistence.notification.repository.MongoNotificationRepository;
+import com.threadly.notification.adapter.persistence.notification.repository.NotificationMongoRepository;
 import com.threadly.notification.adapter.persistence.notification.repository.NotificationCustomRepository;
 import com.threadly.notification.core.domain.notification.Notification;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
@@ -24,12 +24,12 @@ import org.springframework.stereotype.Component;
 public class NotificationPersistenceAdapter implements NotificationCommandPort,
     NotificationQueryPort {
 
-  private final MongoNotificationRepository mongoNotificationRepository;
+  private final NotificationMongoRepository notificationMongoRepository;
   private final NotificationCustomRepository notificationCustomRepository;
 
   @Override
   public SavedNotificationEventDoc save(Notification notification) {
-    NotificationDoc saved = mongoNotificationRepository.save(
+    NotificationDoc saved = notificationMongoRepository.save(
         NotificationDoc.newDoc(
             notification.getEventId(),
             notification.getReceiverId(),
@@ -53,7 +53,7 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
   @Override
   public Optional<Notification> fetchByEventId(String eventId) {
     return
-        mongoNotificationRepository.findById(eventId).map(
+        notificationMongoRepository.findById(eventId).map(
             NotificationMapper::toDomain
         );
   }
@@ -90,23 +90,23 @@ public class NotificationPersistenceAdapter implements NotificationCommandPort,
 
   @Override
   public void deleteByEventId(String eventId) {
-    mongoNotificationRepository.deleteById(eventId);
+    notificationMongoRepository.deleteById(eventId);
   }
 
   @Override
   public boolean existsByEventIdAndReceiverId(String eventId, String receiverId) {
     return
-        mongoNotificationRepository.existsByEventIdAndReceiverId(eventId, receiverId);
+        notificationMongoRepository.existsByEventIdAndReceiverId(eventId, receiverId);
   }
 
   @Override
   public void deleteAllByReceiverId(String receiverId) {
-    mongoNotificationRepository.deleteAllByReceiverId(receiverId);
+    notificationMongoRepository.deleteAllByReceiverId(receiverId);
   }
 
   @Override
   public Optional<Notification> fetchByEventIdAndReceiverId(String eventId, String receiverId) {
-    return mongoNotificationRepository.findByEventIdAndReceiverId(eventId, receiverId)
+    return notificationMongoRepository.findByEventIdAndReceiverId(eventId, receiverId)
         .map(NotificationMapper::toDomain);
   }
 

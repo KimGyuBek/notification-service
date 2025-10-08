@@ -3,7 +3,7 @@ package com.threadly.notification.commons.security;
 
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.exception.token.TokenException;
-import com.threadly.notification.core.domain.user.UserStatusType;
+import com.threadly.notification.core.domain.user.UserStatus;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -81,9 +81,9 @@ public class JwtTokenProvider {
    * @param token
    * @return
    */
-  public UserStatusType getUserStatusType(String token) {
+  public UserStatus getUserStatusType(String token) {
     return
-        UserStatusType.valueOf(
+        UserStatus.valueOf(
             getClaims(token).get("userStatusType", String.class)
         );
   }

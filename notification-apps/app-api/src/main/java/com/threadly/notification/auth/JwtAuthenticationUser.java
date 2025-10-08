@@ -1,6 +1,6 @@
 package com.threadly.notification.auth;
 
-import com.threadly.notification.core.domain.user.UserStatusType;
+import com.threadly.notification.core.domain.user.UserStatus;
 import java.util.Collection;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,13 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class JwtAuthenticationUser implements UserDetails {
 
   private final String userId;
-  private final UserStatusType userStatusType;
+  private final UserStatus userStatus;
   private final Collection<? extends GrantedAuthority> authorities;
 
-  public JwtAuthenticationUser(String userId, UserStatusType userStatusType,
+  public JwtAuthenticationUser(String userId, UserStatus userStatus,
       Collection<? extends GrantedAuthority> authorities) {
     this.userId = userId;
-    this.userStatusType = userStatusType;
+    this.userStatus = userStatus;
     this.authorities = authorities;
   }
 

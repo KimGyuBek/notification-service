@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MongoNotificationRepository extends MongoRepository<NotificationDoc, String> {
+public interface NotificationMongoRepository extends MongoRepository<NotificationDoc, String> {
 
   /**
    * 주어진 eventId, receiverId에 해당하는 데이터가 있는지 조회

@@ -6,6 +6,5 @@ package com.threadly.notification.core.domain.notification.metadata;
 public sealed interface NotificationMetaData
     permits PostLikeMeta, PostCommentMeta, CommentLikeMeta, FollowRequestMeta, FollowMeta,
     FollowAcceptMeta {
-
 }
 

@@ -1,5 +1,7 @@
 package com.threadly.notification.adapter.websocket.interceptor;
 
+import com.threadly.notification.commons.exception.ErrorCode;
+import com.threadly.notification.commons.exception.token.TokenException;
 import com.threadly.notification.commons.security.JwtTokenProvider;
 import java.net.URI;
 import java.util.Map;
