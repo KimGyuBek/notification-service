@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class TokenPortRepository implements FetchTokenPort {
+public class TokenRepository implements FetchTokenPort {
 
   private final RedisTemplate<String, String> redisTemplate;
 

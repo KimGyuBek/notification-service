@@ -40,3 +40,5 @@ infra/docker-volumes/
 json/
 docs/
 logs/
+.claude/
+**/.jqwik-database

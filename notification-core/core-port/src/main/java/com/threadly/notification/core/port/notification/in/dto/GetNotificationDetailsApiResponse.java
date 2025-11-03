@@ -12,11 +12,13 @@ import com.threadly.notification.core.domain.notification.metadata.FollowRequest
 import com.threadly.notification.core.domain.notification.metadata.NotificationMetaData;
 import com.threadly.notification.core.domain.notification.metadata.PostCommentMeta;
 import com.threadly.notification.core.domain.notification.metadata.PostLikeMeta;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 
 /**
  * Notification 상세 조회 API 응답 객체
  */
+@Schema(description = "알림 상세 조회 응답")
 public record GetNotificationDetailsApiResponse(
     String eventId,
     String receiverId,

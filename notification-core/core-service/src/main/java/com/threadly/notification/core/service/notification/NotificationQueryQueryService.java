@@ -50,6 +50,7 @@ public class NotificationQueryQueryService implements NotificationQueryUseCase {
     );
   }
 
+
   @Transactional(readOnly = true)
   @Override
   public CursorPageApiResponse<NotificationDetails> findNotificationByCursor(
@@ -57,6 +58,13 @@ public class NotificationQueryQueryService implements NotificationQueryUseCase {
 
     List<NotificationDetails> notifications = notificationQueryPort.fetchAllByCursor(query);
 
+    return CursorPageApiResponse.from(notifications, query.limit());
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public CursorPageApiResponse<NotificationDetails> findUnreadNotificationByCursor(GetNotificationsQuery query) {
+    List<NotificationDetails> notifications = notificationQueryPort.fetchUnreadByCursor(query);
     return CursorPageApiResponse.from(notifications, query.limit());
   }
 }

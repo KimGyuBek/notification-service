@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
  */
 public record NotificationDetails(
     String eventId,
+    String sortId,
     String receiverId,
     NotificationType notificationType,
     LocalDateTime occurredAt,
@@ -24,6 +25,6 @@ public record NotificationDetails(
 
   @Override
   public String cursorId() {
-    return eventId;
+    return sortId;
   }
 }

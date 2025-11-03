@@ -1,0 +1,32 @@
+name: "트러블 슈팅 레포트"
+description: "문제 발생 시 간단히 기록하고 상세 문서는 docs/troubleshooting 경로에 정리"
+title: "[TROUBLESHOOTING] "
+labels: [ "troubleshooting" ]
+
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 문제 요약
+      description: 문제가 발생한 상황을 간단하게 작성
+      placeholder: "문제 상황"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actions
+    attributes:
+      label: 조치
+      description: 문제 해결을 위해 어떤 조치를 했는지 간단히 작성
+      placeholder: "조치"
+    validations:
+      required: true
+
+  - type: input
+    id: doc-link
+    attributes:
+      label: 상세 문서 링크
+      description: 관련된 docs/troubleshooting 문서가 있다면 링크
+      placeholder: "문서 링크"
+    validations:
+      required: false

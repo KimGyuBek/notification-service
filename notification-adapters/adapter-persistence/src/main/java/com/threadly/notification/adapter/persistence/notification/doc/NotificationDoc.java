@@ -3,6 +3,7 @@ package com.threadly.notification.adapter.persistence.notification.doc;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.google.common.annotations.VisibleForTesting;
 import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.notification.metadata.CommentLikeMeta;
@@ -112,5 +113,13 @@ public class NotificationDoc {
   }
 
   public NotificationDoc() {
+  }
+
+  /**
+   * 테스트용
+   */
+  @VisibleForTesting
+  public void markAsRead() {
+    this.isRead = true;
   }
 }

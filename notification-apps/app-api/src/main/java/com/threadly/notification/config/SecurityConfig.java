@@ -65,6 +65,9 @@ public class SecurityConfig {
             .requestMatchers(
                 "/actuator/**",
                 "/api/test/kafka",
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
                 "/ws/**")
             .permitAll()
             .anyRequest().authenticated()

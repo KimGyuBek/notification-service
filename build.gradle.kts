@@ -25,6 +25,8 @@ allprojects {
     }
 }
 
+apply(from = "gradle/coverage-summary.gradle.kts")
+
 
 subprojects {
     apply(plugin = "io.freefair.lombok")
@@ -33,6 +35,13 @@ subprojects {
         useJUnitPlatform()
     }
 
+    plugins.withId("java") {
+        apply(from = "${rootProject.projectDir}/gradle/jacoco.gradle.kts")
+
+        tasks.named("test") {
+            finalizedBy(rootProject.tasks.named("printCoverageSummary"))
+        }
+    }
 }
 
 configureByLabels("java") {

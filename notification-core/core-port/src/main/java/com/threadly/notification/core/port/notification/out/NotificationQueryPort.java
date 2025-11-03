@@ -29,6 +29,13 @@ public interface NotificationQueryPort {
   List<NotificationDetails> fetchAllByCursor(GetNotificationsQuery query);
 
   /**
+   * 주어진 query에 해당하는 읽지 않은 Notification 목록 커서 기반 조회
+   * @param query
+   * @return
+   */
+  List<NotificationDetails> fetchUnreadByCursor(GetNotificationsQuery query);
+
+  /**
    * 주어진 eventId에 해당하는 알림 데이터가 존재하는지 검증
    *
    * @param eventId

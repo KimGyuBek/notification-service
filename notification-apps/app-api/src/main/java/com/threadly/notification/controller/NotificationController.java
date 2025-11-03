@@ -1,11 +1,14 @@
 package com.threadly.notification.controller;
 
 import com.threadly.notification.auth.JwtAuthenticationUser;
+import com.threadly.notification.commons.response.ApiResponse;
 import com.threadly.notification.commons.response.CursorPageApiResponse;
+import com.threadly.notification.controller.api.NotificationApi;
 import com.threadly.notification.core.port.notification.in.NotificationCommandUseCase;
 import com.threadly.notification.core.port.notification.in.NotificationQueryUseCase;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationDetailsApiResponse;
 import com.threadly.notification.core.port.notification.in.dto.GetNotificationsQuery;
+import com.threadly.notification.core.port.notification.in.dto.NotificationDetails;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,20 +27,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/notifications")
 @RequiredArgsConstructor
-public class NotificationController {
+public class NotificationController implements NotificationApi {
 
   private final NotificationQueryUseCase notificationQueryUseCase;
   private final NotificationCommandUseCase notificationCommandUseCase;
 
 
   /**
-   * 내 알림 목록 커서 기반 조회
+   * 내 전체 알림 목록 커서 기반 조회
    *
    * @param user
    * @return
    */
   @GetMapping()
-  public ResponseEntity<CursorPageApiResponse> getNotifications(
+  public ResponseEntity<CursorPageApiResponse<NotificationDetails>> getNotifications(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
       @RequestParam(value = "cursor_id", required = false) String cursorId,
@@ -45,6 +48,31 @@ public class NotificationController {
 
     return ResponseEntity.ok().body(
         notificationQueryUseCase.findNotificationByCursor(
+            new GetNotificationsQuery(
+                user.getUserId(), cursorTimestamp, cursorId, limit)
+        )
+    );
+  }
+
+  /**
+   * 읽지 않은 알림 목록 커서 기반 조회
+   *
+   * @param user
+   * @param cursorTimestamp
+   * @param cursorId
+   * @param limit
+   * @return
+   */
+  @GetMapping("/unread")
+  public ResponseEntity<CursorPageApiResponse<NotificationDetails>> getUnreadNotifications(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit
+  ) {
+
+    return ResponseEntity.ok().body(
+        notificationQueryUseCase.findUnreadNotificationByCursor(
             new GetNotificationsQuery(
                 user.getUserId(), cursorTimestamp, cursorId, limit)
         )
@@ -121,7 +149,6 @@ public class NotificationController {
     notificationCommandUseCase.clearNotifications(user.getUserId());
     return ResponseEntity.ok().build();
   }
-
 
 
 }
