@@ -41,3 +41,4 @@ json/
 docs/
 logs/
 .claude/
+**/.jqwik-database
