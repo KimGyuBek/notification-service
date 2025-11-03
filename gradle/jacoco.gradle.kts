@@ -51,8 +51,6 @@ tasks.named<JacocoReport>("jacocoTestReport") {
                     "**/*Exception.class",
 
                     // 매퍼 및 레포지토리
-                    "**/*Mapper.class",
-                    "**/mapper/**/*.class",
                     "**/adapter/persistence/**/repository/**/*.class",
                     "**/adapter/persistence/**/*Repository.class",
 
