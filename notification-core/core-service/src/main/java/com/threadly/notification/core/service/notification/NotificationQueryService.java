@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationQueryQueryService implements NotificationQueryUseCase {
+public class NotificationQueryService implements NotificationQueryUseCase {
 
   private final NotificationQueryPort notificationQueryPort;
 
