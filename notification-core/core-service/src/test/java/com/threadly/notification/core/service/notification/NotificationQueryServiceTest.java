@@ -36,10 +36,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
-class NotificationQueryQueryServiceTest {
+class NotificationQueryServiceTest {
 
   @InjectMocks
-  private NotificationQueryQueryService notificationQueryQueryService;
+  private NotificationQueryService notificationQueryService;
 
   @Mock
   private NotificationQueryPort notificationQueryPort;
@@ -73,7 +73,7 @@ class NotificationQueryQueryServiceTest {
 
       //when
       GetNotificationDetailsApiResponse response =
-          notificationQueryQueryService.findNotificationDetail("receiver-1", "event-1");
+          notificationQueryService.findNotificationDetail("receiver-1", "event-1");
 
       //then
       assertThat(response.eventId()).isEqualTo(notification.getEventId());
@@ -90,7 +90,7 @@ class NotificationQueryQueryServiceTest {
     @Test
     void findNotificationDetail_shouldThrow_whenEventIdEmpty() throws Exception {
       //when & then
-      assertThatThrownBy(() -> notificationQueryQueryService.findNotificationDetail("receiver-1", ""))
+      assertThatThrownBy(() -> notificationQueryService.findNotificationDetail("receiver-1", ""))
           .isInstanceOf(NotificationException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.INVALID_REQUEST);
@@ -106,7 +106,7 @@ class NotificationQueryQueryServiceTest {
           .thenReturn(Optional.empty());
 
       //when & then
-      assertThatThrownBy(() -> notificationQueryQueryService.findNotificationDetail("receiver-1", "event-1"))
+      assertThatThrownBy(() -> notificationQueryService.findNotificationDetail("receiver-1", "event-1"))
           .isInstanceOf(NotificationException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.NOTIFICATION_NOT_FOUND);
@@ -122,7 +122,7 @@ class NotificationQueryQueryServiceTest {
           .thenReturn(Optional.of(sampleNotification()));
 
       //when & then
-      assertThatThrownBy(() -> notificationQueryQueryService.findNotificationDetail("other-user", "event-1"))
+      assertThatThrownBy(() -> notificationQueryService.findNotificationDetail("other-user", "event-1"))
           .isInstanceOf(NotificationException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.NOTIFICATION_ACCESS_FORBIDDEN);
@@ -155,7 +155,7 @@ class NotificationQueryQueryServiceTest {
 
       //when
       CursorPageApiResponse<NotificationDetails> response =
-          notificationQueryQueryService.findNotificationByCursor(query);
+          notificationQueryService.findNotificationByCursor(query);
 
       //then
       assertThat(response.content()).hasSize(2);
@@ -185,7 +185,7 @@ class NotificationQueryQueryServiceTest {
 
       //when
       CursorPageApiResponse<NotificationDetails> response =
-          notificationQueryQueryService.findUnreadNotificationByCursor(query);
+          notificationQueryService.findUnreadNotificationByCursor(query);
 
       //then
       assertThat(response.content()).hasSize(1);

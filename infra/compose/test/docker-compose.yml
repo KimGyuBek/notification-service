@@ -1,4 +1,4 @@
-#DEV
+#TEST
 services:
   mongodb:
     container_name: mongodb-test

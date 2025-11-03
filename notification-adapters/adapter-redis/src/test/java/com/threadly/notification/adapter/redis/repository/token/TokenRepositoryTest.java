@@ -151,4 +151,27 @@ class TokenRepositoryTest {
     assertThat(tokenRepository.existsBlackListTokenByAccessToken(token2)).isTrue();
     assertThat(tokenRepository.existsBlackListTokenByAccessToken(token3)).isFalse();
   }
+
+  /*[Case #7] 블랙리스트 토큰 TTL 만료 후 조회 - false 리턴*/
+  @Order(7)
+  @Test
+  @DisplayName("7. 블랙리스트 토큰 TTL 만료 후 조회 - false 리턴")
+  void existsBlackListTokenByAccessToken_WhenTtlExpired_ShouldReturnFalse() throws InterruptedException {
+    // given
+    String accessToken = "expiring.access.token";
+    String userId = "user123";
+    String blacklistKey = "token:blacklist:" + accessToken;
+
+    // Redis에 블랙리스트 토큰을 2초 TTL로 등록
+    redisTemplate.opsForValue().set(blacklistKey, userId, java.time.Duration.ofSeconds(2));
+
+    // when
+    /*TTL 만료 대기*/
+    Thread.sleep(2500);
+
+    boolean exists = tokenRepository.existsBlackListTokenByAccessToken(accessToken);
+
+    // then
+    assertThat(exists).isFalse();
+  }
 }
