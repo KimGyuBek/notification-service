@@ -1,12 +1,10 @@
 package com.threadly.notification.core.service.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.threadly.notification.core.domain.mail.MailType;
 import com.threadly.notification.core.domain.mail.model.MailModel;
 import com.threadly.notification.core.domain.mail.model.VerificationModel;
 import com.threadly.notification.core.domain.mail.model.WelcomeModel;
 import com.threadly.notification.core.port.mail.in.dto.SendMailCommand;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

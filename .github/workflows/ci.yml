@@ -2,10 +2,12 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
     branches:
       - develop
       - master
+  workflow_dispatch:
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -30,12 +32,28 @@ jobs:
         run: |
           ./gradlew test --no-daemon
 
+      - name: 모듈별 커버리지 Summary 생성
+        if: always()
+        run: |
+          ./gradlew printCoverageSummaryMarkdown --no-daemon
+          cat build/reports/coverage-summary.md >> $GITHUB_STEP_SUMMARY
+
+      - name: 모듈별 커버리지 리포트 업로드
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            **/build/reports/jacoco/test/**
+          retention-days: 3
+
       - name: 테스트 리포트 업로드
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: ./notification-apps/app-api/build/reports/tests/test
+          path: ./notification-apps/app-api/build/reports/tests/**
+          retention-days: 3
 
       - name: Docker compose 종료
         if: always()

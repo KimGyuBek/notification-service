@@ -2,7 +2,6 @@ package com.threadly.notification.adapter.smtp.client;
 
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.commons.exception.mail.EmailVerificationException;
-import com.threadly.notification.core.port.mail.out.SendMailPort;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class MailClient implements SendMailPort {
+public class MailClient {
 
   private final JavaMailSender mailSender;
 
@@ -28,7 +27,6 @@ public class MailClient implements SendMailPort {
    * @param context
    * @throws MessagingException
    */
-  @Override
   public void sendMail(String to, String subject, String context) {
     try {
       MimeMessage mimeMessage = mailSender.createMimeMessage();

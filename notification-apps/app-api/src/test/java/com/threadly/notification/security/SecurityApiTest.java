@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.notification.BaseApiTest;
 import com.threadly.notification.CommonResponse;
-import com.threadly.notification.adapter.redis.repository.token.TokenPortRepository;
+import com.threadly.notification.adapter.redis.repository.token.TokenRepository;
 import com.threadly.notification.commons.exception.ErrorCode;
 import com.threadly.notification.utils.AccessTokenTestUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ class SecurityApiTest extends BaseApiTest {
   private AccessTokenTestUtils accessTokenTestUtils;
 
   @Autowired
-  private TokenPortRepository tokenPortRepository;
+  private TokenRepository tokenRepository;
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
@@ -126,7 +126,7 @@ class SecurityApiTest extends BaseApiTest {
     validateFailResponse(response, ErrorCode.TOKEN_INVALID);
 
     // 블랙리스트에 등록되어 있는지 확인
-    boolean isBlacklisted = tokenPortRepository.existsBlackListTokenByAccessToken(accessToken);
+    boolean isBlacklisted = tokenRepository.existsBlackListTokenByAccessToken(accessToken);
     assert isBlacklisted;
   }
 
