@@ -36,7 +36,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
-class NotificationQueryServiceTes {
+class NotificationQueryServiceTest {
 
   @InjectMocks
   private NotificationQueryService notificationQueryService;
