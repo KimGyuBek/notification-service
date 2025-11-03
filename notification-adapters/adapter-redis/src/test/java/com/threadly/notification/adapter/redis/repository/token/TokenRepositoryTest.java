@@ -22,10 +22,10 @@ import redis.embedded.RedisServer;
 @DisplayName("Token Repository 테스트")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
-class TokenPortRepositoryTest {
+class TokenRepositoryTest {
 
   @Autowired
-  private TokenPortRepository tokenPortRepository;
+  private TokenRepository tokenRepository;
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
@@ -52,7 +52,7 @@ class TokenPortRepositoryTest {
     redisTemplate.opsForValue().set(blacklistKey, userId);
 
     // when
-    boolean exists = tokenPortRepository.existsBlackListTokenByAccessToken(accessToken);
+    boolean exists = tokenRepository.existsBlackListTokenByAccessToken(accessToken);
 
     // then
     assertThat(exists).isTrue();
@@ -67,7 +67,7 @@ class TokenPortRepositoryTest {
     String accessToken = "nonexistent.access.token";
 
     // when
-    boolean exists = tokenPortRepository.existsBlackListTokenByAccessToken(accessToken);
+    boolean exists = tokenRepository.existsBlackListTokenByAccessToken(accessToken);
 
     // then
     assertThat(exists).isFalse();
@@ -87,7 +87,7 @@ class TokenPortRepositoryTest {
     redisTemplate.opsForValue().set(expectedKey, userId);
 
     // when
-    boolean exists = tokenPortRepository.existsBlackListTokenByAccessToken(accessToken);
+    boolean exists = tokenRepository.existsBlackListTokenByAccessToken(accessToken);
 
     // then
     assertThat(exists).isTrue();
@@ -95,7 +95,7 @@ class TokenPortRepositoryTest {
     // 잘못된 키 형식으로는 조회되지 않음을 확인
     String wrongKey = "blacklist:" + accessToken;
     redisTemplate.opsForValue().set(wrongKey, userId);
-    boolean existsWithWrongKey = tokenPortRepository.existsBlackListTokenByAccessToken(accessToken);
+    boolean existsWithWrongKey = tokenRepository.existsBlackListTokenByAccessToken(accessToken);
     assertThat(existsWithWrongKey).isTrue(); // 올바른 키가 이미 존재하므로 true
   }
 
@@ -108,7 +108,7 @@ class TokenPortRepositoryTest {
     String emptyAccessToken = "";
 
     // when
-    boolean exists = tokenPortRepository.existsBlackListTokenByAccessToken(emptyAccessToken);
+    boolean exists = tokenRepository.existsBlackListTokenByAccessToken(emptyAccessToken);
 
     // then
     assertThat(exists).isFalse();
@@ -127,7 +127,7 @@ class TokenPortRepositoryTest {
     // 실제 운영에서는 null 체크가 필요함을 확인하는 테스트
     assertThrows(
         NullPointerException.class,
-        () -> tokenPortRepository.existsBlackListTokenByAccessToken(nullAccessToken)
+        () -> tokenRepository.existsBlackListTokenByAccessToken(nullAccessToken)
     );
   }
 
@@ -147,8 +147,8 @@ class TokenPortRepositoryTest {
     redisTemplate.opsForValue().set("token:blacklist:" + token2, userId);
 
     // when & then
-    assertThat(tokenPortRepository.existsBlackListTokenByAccessToken(token1)).isTrue();
-    assertThat(tokenPortRepository.existsBlackListTokenByAccessToken(token2)).isTrue();
-    assertThat(tokenPortRepository.existsBlackListTokenByAccessToken(token3)).isFalse();
+    assertThat(tokenRepository.existsBlackListTokenByAccessToken(token1)).isTrue();
+    assertThat(tokenRepository.existsBlackListTokenByAccessToken(token2)).isTrue();
+    assertThat(tokenRepository.existsBlackListTokenByAccessToken(token3)).isFalse();
   }
 }
