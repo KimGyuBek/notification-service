@@ -2,14 +2,19 @@ package com.threadly.notification.config;
 
 import com.threadly.notification.global.filter.CustomAuthenticationEntryPoint;
 import com.threadly.notification.global.filter.JwtAuthenticationFilter;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @RequiredArgsConstructor
@@ -28,6 +33,32 @@ public class SecurityConfig {
     configureExceptionHandling(http);
 
     return http.build();
+  }
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowedOrigins(Arrays.asList(
+        "https://threadly.kr",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ));
+    config.setAllowedMethods(Arrays.asList(
+        "GET", "DELETE", "PATCH", "OPTIONS", "HEAD"
+    ));
+    config.setAllowCredentials(true);
+    config.setAllowedHeaders(Arrays.asList(
+        "Authorization", "Accept", "Content-Type", "Origin"
+    ));
+    config.setExposedHeaders(Arrays.asList(
+        "Authorization", "Location"
+    ));
+    config.setMaxAge(3600L);
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+
+    return source;
   }
 
   /**
@@ -83,7 +114,7 @@ public class SecurityConfig {
   private static void disableDefaultSecurity(HttpSecurity http) throws Exception {
     http.httpBasic(AbstractHttpConfigurer::disable);
     http.csrf(AbstractHttpConfigurer::disable);
-    http.cors(AbstractHttpConfigurer::disable);
+    http.cors(Customizer.withDefaults());
     http.formLogin(AbstractHttpConfigurer::disable);
   }
 
