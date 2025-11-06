@@ -5,6 +5,7 @@ import com.threadly.notification.adapter.websocket.notification.NotificationWebS
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
@@ -20,6 +21,11 @@ public class WebSocketConfig implements WebSocketConfigurer {
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry.addHandler(handler, "/ws/notifications")
         .addInterceptors(jwtHandshakeInterceptor)
-        .setAllowedOriginPatterns("*");
+        .setAllowedOriginPatterns(
+            "https://threadly.kr",
+            "http://localhost:*",
+            "http://127.0.0.1:*"
+
+        );
   }
 }
