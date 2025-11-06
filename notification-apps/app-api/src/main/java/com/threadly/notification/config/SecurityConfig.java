@@ -44,7 +44,7 @@ public class SecurityConfig {
         "http://127.0.0.1:5173"
     ));
     config.setAllowedMethods(Arrays.asList(
-        "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"
+        "GET", "DELETE", "PATCH", "OPTIONS", "HEAD"
     ));
     config.setAllowCredentials(true);
     config.setAllowedHeaders(Arrays.asList(
