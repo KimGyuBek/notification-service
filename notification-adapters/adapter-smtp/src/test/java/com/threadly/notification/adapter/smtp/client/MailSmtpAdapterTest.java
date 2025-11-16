@@ -29,6 +29,6 @@ class MailSmtpAdapterTest {
     mailSmtpAdapter.sendMail("user@threadly.io", "subject", "body");
 
     //then
-    verify(mailClient).sendMail("user@threadly.io", "subject", "body");
+    verify(mailClient).sendMail("threadly@naver.com", "user@threadly.io", "subject", "body");
   }
 }
