@@ -17,8 +17,6 @@ public class MailClient {
 
   private final JavaMailSender mailSender;
 
-  private final static String FROM = "rlarbqor00@naver.com";
-
   /**
    * 메일 전송
    *
@@ -27,17 +25,18 @@ public class MailClient {
    * @param context
    * @throws MessagingException
    */
-  public void sendMail(String to, String subject, String context) {
+  public void sendMail(String from, String to, String subject, String context) {
     try {
       MimeMessage mimeMessage = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-      helper.setFrom(FROM);
-      /*TODO to 수정*/
-      helper.setTo(FROM);
+      helper.setFrom(from);
+      helper.setTo(to);
       helper.setSubject(subject);
       helper.setText(context, true);
 
       mailSender.send(mimeMessage);
+
+      log.debug("mail 전송, to: {}", to);
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       throw new EmailVerificationException(ErrorCode.EMAIL_SENDING_FAILED);
