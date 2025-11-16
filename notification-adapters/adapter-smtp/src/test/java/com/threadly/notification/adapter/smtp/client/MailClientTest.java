@@ -47,7 +47,7 @@ class MailClientTest {
       when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
 
       //when
-      mailClient.sendMail("user@threadly.io", "subject", "<p>body</p>");
+      mailClient.sendMail("threadly@naver.com", "user@threadly.io", "subject", "<p>body</p>");
 
       //then
       verify(javaMailSender).send(mimeMessage);
@@ -63,7 +63,7 @@ class MailClientTest {
       doThrow(new IllegalStateException("smtp error")).when(javaMailSender).send(mimeMessage);
 
       //when & then
-      assertThatThrownBy(() -> mailClient.sendMail("user@threadly.io", "subject", "body"))
+      assertThatThrownBy(() -> mailClient.sendMail("threadly@naver.com", "user@threadly.io", "subject", "body"))
           .isInstanceOf(EmailVerificationException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.EMAIL_SENDING_FAILED);
