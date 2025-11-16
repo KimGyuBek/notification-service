@@ -38,8 +38,8 @@ out/
 
 infra/docker-volumes/
 json/
-docs/
-!docs/images
+/docs/*
+!/docs/images
 logs/
 .claude/
 **/.jqwik-database
