@@ -2,21 +2,25 @@ package com.threadly.notification.adapter.smtp.client;
 
 import com.threadly.notification.core.port.mail.out.SendMailPort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Profile("prod")
+/**
+ * Dev, Test 전용 수신자 고정
+ */
+@Profile({"test", "dev"})
 @Component
 @RequiredArgsConstructor
-public class MailSmtpAdapter implements SendMailPort {
-
-  private static String FROM = "threadly@naver.com";
+public class SandBoxMailSmtpAdapter implements SendMailPort {
 
   private final MailClient mailClient;
 
+  private static String FROM = "rlarbqor00@naver.com";
+  private static String TO = "rlarbqor00@naver.com";
+
   @Override
   public void sendMail(String to, String subject, String context) {
-    mailClient.sendMail(FROM, to, subject, context);
+    mailClient.sendMail(FROM, TO, subject, context);
+
   }
 }

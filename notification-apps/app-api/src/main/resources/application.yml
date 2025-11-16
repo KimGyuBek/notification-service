@@ -17,8 +17,6 @@ spring:
         starttls:
           enable: true
 
-mail:
-  from: rlarbqor00@naver.com
 
 server:
   port: 8081
