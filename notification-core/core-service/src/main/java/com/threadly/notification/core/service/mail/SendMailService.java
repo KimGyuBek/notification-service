@@ -35,6 +35,7 @@ public class SendMailService implements SendMailUseCase {
       case VERIFICATION -> {
         log.info("인증 메일 전송: mailType={}, to={}", command.mailType(), command.to());
         sendVerificationMail(command);
+        throw new RuntimeException("테스트");
       }
     }
   }

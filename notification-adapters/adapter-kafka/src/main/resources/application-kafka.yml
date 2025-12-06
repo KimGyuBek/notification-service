@@ -20,9 +20,10 @@ spring:
           destination: mail
           group: mail-consumer
           content-type: application/json
+          error-handler-definition: mailErrorHandler
           consumer:
             use-native-decoding: true
-            max-attempts: 2
+            max-attempts: 3
             back-off-initial-interval: 1000
             back-off-max-interval: 10000
             back-off-multiplier: 2.0

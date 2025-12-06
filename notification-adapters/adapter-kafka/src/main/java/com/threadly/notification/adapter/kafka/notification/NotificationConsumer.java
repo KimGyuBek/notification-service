@@ -1,15 +1,17 @@
 package com.threadly.notification.adapter.kafka.notification;
 
+import static com.threadly.notification.adapter.kafka.utils.KafkaConsumerLogUtils.logFailure;
+
 import com.threadly.notification.adapter.kafka.notification.dto.NotificationEvent;
+import com.threadly.notification.adapter.kafka.utils.KafkaConsumerLogUtils;
+import com.threadly.notification.adapter.kafka.utils.RetryAttemptUtils;
 import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.integration.IntegrationMessageHeaderAccessor;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ public class NotificationConsumer {
   private final NotificationIngestionUseCase notificationIngestionUseCase;
   private final Counter retryAttemptCounter;
   private final Counter consumeSuccessCounter;
+
+  private static final String TOPIC = "Notification";
 
 
   public NotificationConsumer(NotificationIngestionUseCase notificationIngestionUseCase,
@@ -47,17 +51,13 @@ public class NotificationConsumer {
       Object rawKey = message.getHeaders().get(KafkaHeaders.RECEIVED_KEY);
       NotificationEvent event = message.getPayload();
 
-      AtomicInteger attempt = message.getHeaders()
-          .get(IntegrationMessageHeaderAccessor.DELIVERY_ATTEMPT, AtomicInteger.class);
-      int attemptValue = attempt != null ? attempt.get() : 1;
+      int attempt = RetryAttemptUtils.getAttemptValue(message);
 
       /*재시도인 경우*/
-      if (attemptValue > 1) {
+      if (attempt > 1) {
         retryAttemptCounter.increment();
-        log.warn("알림 재시도 처리 중({}): eventId={}, attempt={}", attemptValue, event.getEventId(), attempt);
+        KafkaConsumerLogUtils.logRetry(TOPIC, attempt, event.getEventId());
       }
-
-      log.debug("Processing notification - key: {}, eventId: {}", rawKey, event.getEventId());
 
       /*key와 receiverId가 불일치하는 경우*/
       if (rawKey != null && !rawKey.equals(event.getReceiverUserId())) {
@@ -77,10 +77,10 @@ public class NotificationConsumer {
             )
         );
         consumeSuccessCounter.increment();
-        log.info("알림 처리 성공: eventId={}", event.getEventId());
+        KafkaConsumerLogUtils.logSuccess(TOPIC, event.getEventId());
 
       } catch (Exception e) {
-        log.warn("알림 처리 실패(재시도 예정): eventId={}", event.getEventId(), e);
+        logFailure(TOPIC, event.getEventId(), e);
         throw e;
       }
     };
