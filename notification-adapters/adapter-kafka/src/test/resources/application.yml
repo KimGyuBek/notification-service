@@ -8,7 +8,6 @@ spring:
           destination: notification
           group: notification-consumer
           content-type: application/json
-          error-handler-definition: notificationErrorHandler
           consumer:
             use-native-decoding: true
             max-attempts: 3

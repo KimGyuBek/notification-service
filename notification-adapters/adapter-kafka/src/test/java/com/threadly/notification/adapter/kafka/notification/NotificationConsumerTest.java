@@ -11,9 +11,14 @@ import com.threadly.notification.core.port.notification.in.NotificationIngestion
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.function.Consumer;
+import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestClassOrder;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -27,6 +32,7 @@ import org.springframework.messaging.support.MessageBuilder;
  * NotificationConsumer 테스트
  */
 @ExtendWith(MockitoExtension.class)
+@TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class NotificationConsumerTest {
 
   @InjectMocks
@@ -46,15 +52,15 @@ class NotificationConsumerTest {
     );
   }
 
-  private Consumer<Message<NotificationEvent>> consumer() {
-    return notificationConsumer.notificationEventConsumer();
-  }
 
+  @Order(1)
+  @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
   @Nested
   @DisplayName("notificationEventConsumer 테스트")
   class NotificationEventConsumerTestCases {
 
     /*[Case #1] key가 receiverId와 같으면 ingest가 호출되어야 한다*/
+    @Order(1)
     @DisplayName("1. key가 receiverId와 같으면 ingest가 호출되는지 검증")
     @Test
     void notificationEventConsumer_shouldIngest_whenKeyMatchesReceiver() throws Exception {
@@ -64,7 +70,8 @@ class NotificationConsumerTest {
           .withPayload(event)
           .setHeader(KafkaHeaders.RECEIVED_KEY, "receiver-1")
           .build();
-      ArgumentCaptor<NotificationCommand> captor = ArgumentCaptor.forClass(NotificationCommand.class);
+      ArgumentCaptor<NotificationCommand> captor = ArgumentCaptor.forClass(
+          NotificationCommand.class);
 
       //when
       consumer().accept(message);
@@ -73,12 +80,15 @@ class NotificationConsumerTest {
       verify(notificationIngestionUseCase).ingest(captor.capture());
       NotificationCommand command = captor.getValue();
       org.assertj.core.api.Assertions.assertThat(command.eventId()).isEqualTo(event.getEventId());
-      org.assertj.core.api.Assertions.assertThat(command.receiverId()).isEqualTo(event.getReceiverUserId());
-      org.assertj.core.api.Assertions.assertThat(command.notificationType()).isEqualTo(event.getNotificationType());
+      org.assertj.core.api.Assertions.assertThat(command.receiverId())
+          .isEqualTo(event.getReceiverUserId());
+      org.assertj.core.api.Assertions.assertThat(command.notificationType())
+          .isEqualTo(event.getNotificationType());
       org.assertj.core.api.Assertions.assertThat(command.metadata()).isEqualTo(event.getMetadata());
     }
 
     /*[Case #2] key가 receiverId와 다르면 ingest가 호출되지 않아야 한다*/
+    @Order(2)
     @DisplayName("2. key가 receiverId와 다르면 ingest가 호출되지 않는지 검증")
     @Test
     void notificationEventConsumer_shouldSkipIngest_whenKeyMismatch() throws Exception {
@@ -95,5 +105,12 @@ class NotificationConsumerTest {
       //then
       verify(notificationIngestionUseCase, never()).ingest(org.mockito.ArgumentMatchers.any());
     }
+
+    private Consumer<Message<NotificationEvent>> consumer() {
+      return notificationConsumer.notificationEventConsumer();
+    }
   }
+
+
+
 }
