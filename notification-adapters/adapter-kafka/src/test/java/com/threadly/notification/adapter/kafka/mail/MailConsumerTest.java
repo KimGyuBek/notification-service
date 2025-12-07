@@ -7,8 +7,13 @@ import com.threadly.notification.adapter.kafka.mail.dto.MailEvent;
 import com.threadly.notification.core.domain.mail.MailType;
 import com.threadly.notification.core.port.mail.in.SendMailUseCase;
 import com.threadly.notification.core.port.mail.in.dto.SendMailCommand;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.Map;
 import java.util.function.Consumer;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,11 +32,17 @@ import org.springframework.messaging.support.MessageBuilder;
 @ExtendWith(MockitoExtension.class)
 class MailConsumerTest {
 
-  @InjectMocks
   private MailConsumer mailConsumer;
 
   @Mock
   private SendMailUseCase sendMailUseCase;
+
+  private MeterRegistry meterRegistry = new SimpleMeterRegistry();
+
+  @BeforeEach
+  void setUp() {
+    mailConsumer = new MailConsumer(sendMailUseCase, meterRegistry);
+  }
 
   private MailEvent sampleEvent() {
     return new MailEvent(

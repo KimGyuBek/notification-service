@@ -6,6 +6,11 @@ on:
     branches:
       - develop
       - master
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.github/**'
+      - '.gitignore'
   workflow_dispatch:
 
 jobs:
