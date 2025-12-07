@@ -5,5 +5,6 @@ dependencies {
     implementation(project(":notification-commons"))
 
     implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 }

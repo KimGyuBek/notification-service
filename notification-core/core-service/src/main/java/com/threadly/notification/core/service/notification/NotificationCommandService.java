@@ -34,6 +34,7 @@ public class NotificationCommandService implements NotificationCommandUseCase,
   @Transactional
   @Override
   public void ingest(NotificationCommand command) {
+
     log.info("Handling notification event: {}", command.toString());
     /*도메인 생성*/
     Notification notification = Notification.newNotification(
@@ -56,7 +57,6 @@ public class NotificationCommandService implements NotificationCommandUseCase,
     applicationEventPublisher.publishEvent(
         new NotificationPushCommand(notification, saved.sortId())
     );
-
   }
 
   @Transactional

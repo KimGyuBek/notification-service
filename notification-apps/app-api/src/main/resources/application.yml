@@ -30,6 +30,7 @@ management:
           - prometheus
           - health
           - info
+          - bindings
   endpoint:
     health:
       show-details: always
