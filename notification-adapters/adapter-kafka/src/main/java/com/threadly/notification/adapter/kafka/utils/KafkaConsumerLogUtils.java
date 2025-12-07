@@ -57,8 +57,8 @@ public class KafkaConsumerLogUtils {
     Object payload = failedMessage.getPayload();
 
     log.error(
-        "[{}Consumer] 최종 실패: topic={}, partition={}, offset={}, key={}, payload={}",
-        topic, partition, offset, key, payload, ex
+        "최종 실패: topic={}, partition={}, offset={}, key={}, payload={}",
+         topic, partition, offset, key, payload, ex
     );
   }
 
