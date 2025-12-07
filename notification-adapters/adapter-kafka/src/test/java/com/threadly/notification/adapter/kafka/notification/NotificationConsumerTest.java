@@ -8,9 +8,12 @@ import com.threadly.notification.core.domain.notification.NotificationType;
 import com.threadly.notification.core.domain.user.ActorProfile;
 import com.threadly.notification.core.port.notification.in.NotificationCommand;
 import com.threadly.notification.core.port.notification.in.NotificationIngestionUseCase;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.function.Consumer;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -35,11 +38,17 @@ import org.springframework.messaging.support.MessageBuilder;
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class NotificationConsumerTest {
 
-  @InjectMocks
   private NotificationConsumer notificationConsumer;
 
   @Mock
   private NotificationIngestionUseCase notificationIngestionUseCase;
+
+  private MeterRegistry meterRegistry = new SimpleMeterRegistry();
+
+  @BeforeEach
+  void setUp() {
+    notificationConsumer = new NotificationConsumer(notificationIngestionUseCase, meterRegistry);
+  }
 
   private NotificationEvent sampleEvent() {
     return new NotificationEvent(
