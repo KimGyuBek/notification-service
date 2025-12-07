@@ -39,9 +39,10 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
-  springdoc:
-    api-docs:
-      path: /v3-notification/api-docs
-    swagger-ui:
-      path: /swagger-ui
-      config-url: /v3-notification/api-docs/swagger-config
+
+springdoc:
+  api-docs:
+    path: /v3-notification/api-docs
+  swagger-ui:
+    path: /swagger-ui
+    config-url: /v3-notification/api-docs/swagger-config
