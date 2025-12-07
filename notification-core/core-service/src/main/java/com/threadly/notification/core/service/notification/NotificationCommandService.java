@@ -57,8 +57,6 @@ public class NotificationCommandService implements NotificationCommandUseCase,
     applicationEventPublisher.publishEvent(
         new NotificationPushCommand(notification, saved.sortId())
     );
-
-    throw new RuntimeException("에러");
   }
 
   @Transactional
