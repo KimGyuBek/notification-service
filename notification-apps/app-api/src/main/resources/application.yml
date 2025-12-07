@@ -39,3 +39,6 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+  springdoc:
+    api-docs:
+      path: /v3-notification/api-docs

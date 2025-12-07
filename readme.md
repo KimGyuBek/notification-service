@@ -1,32 +1,28 @@
 # notification-service
-### Threadly 플랫폼의 백엔드 서비스입니다.
 
-**플랫폼은 MSA 구조로 구성되어 있으며,**
+>  Threadly 백엔드의 **알림 전용 서비스**입니다.
 
-`notification-service`는 팔로우, 댓글, 좋아요 등 사용자 활동에 대한 
+### 알림 서비스는 다음 기능을 담당합니다.
+- 게시글 좋아요, 댓글, 팔로우 등 사용자 활동에 대한 실시간 알림 생성
+- 회원가입 시 인증 메일, 가입 완료 후 환영 메일 등 이메일 발송
+- 메인 서비스(`threadly-service`)에서 발행한 도메인 이벤트를 `Kafka` 기반 비동기 메시지로 수신해 알림을 저장, 전달
+- 알림 조회, 읽음 처리 등 `/api/notifications/*` REST API 요청 처리
 
-**실시간 알림을 처리하는 알림 서비스 입니다.**
+## 관련 레포 및 서비스
 
-<br>
+> 전체 아키텍처, 운영 구조, 트러블슈팅 기록은 Threadly 메인 레포 및 Wiki에서 확인할 수 있습니다.
 
-> 전체 서비스 아키텍쳐 및 시스템 구성은 메인 레포에서 확인할 수 있습니다.
+- **Threadly 메인 레포**: https://github.com/KimGyuBek/Threadly
+- **Wiki 문서**: https://github.com/KimGyuBek/Threadly/wiki
+- **메인 서비스**: https://github.com/KimGyuBek/threadly-service
+- **Threadly 서비스**: https://threadly.kr
+- **Threadly API**: https://api.threadly.kr
 
 
-### 메인 레포: https://github.com/KimGyuBek/Threadly
-### Wiki 문서: https://github.com/KimGyuBek/Threadly/wiki
+## 백엔드 시스템 구성도
 
-### threadly-service(API): https://github.com/KimGyuBek/threadly-service
+![architecture](docs/images/msa.png)
 
-<br>
-
-### Threadly 서비스: https://threadly.kr
-
----
-
-## 시스템 구성도
-![architecture](docs/images/msa_architecture.png)
-
----
 
 ## 모듈 구조
 
@@ -50,51 +46,24 @@ notification-service/
 └── notification-commons/           # 공통 유틸리티 및 공유 컴포넌트
 ```
 
----
 
-## 기술 스택
+## 사용 기술 스택
 
-**Backend Framework**
-- Java 17
-- Spring Boot 3.3.3
-- Spring Cloud 2023.0.3
+### 백엔드
 
-**Database & Cache**
-- MongoDB
-- Redis
+`Java 17` `Spring Boot 3.3.3` `Spring Security` `Spring Data MongoDB`  `Spring Cloud Stream`
 
-**Message Queue**
-- Kafka (Spring Cloud Stream)
+### DB / 캐시
 
-**Communication**
-- WebSocket (Spring WebSocket)
-- SMTP (Spring Mail)
+`MongoDB` `Redis`
 
-**Security & Auth**
-- Spring Security
-- JWT (0.11.5)
+### 인프라 / 메시징
 
-**API & Documentation**
-- Spring Web
-- SpringDoc OpenAPI 2.6.0
-- Spring REST Docs
+`Kafka` `Docker` `AWS EC2`  `GitHub Actions`  `Grafana`
 
-**Utilities**
-- Lombok
-- MapStruct 1.5.3
-- Guava 31.1
-- Apache Commons (Lang3, Collections4)
-- Jackson 2.17.1
+### 통신
+`SMTP` `WebSocket`
 
-**Testing**
-- JUnit 5
-- Mockito 5.1.1
-- AssertJ 3.25.1
+### 테스트 및 품질
 
-**Monitoring**
-- Spring Actuator
-- Micrometer + Prometheus
-
-**Build**
-- Gradle (Kotlin DSL)
-
+`JUnit 5` `k6` `JaCoCo` `Mockito`
