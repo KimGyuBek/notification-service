@@ -5,7 +5,7 @@
 ### 알림 서비스는 다음 기능을 담당합니다.
 - 게시글 좋아요, 댓글, 팔로우 등 사용자 활동에 대한 실시간 알림 생성
 - 회원가입 시 인증 메일, 가입 완료 후 환영 메일 등 이메일 발송
-- 메인 서비스(`threadly-service`)에서 발행한 도메인 이벤트를 `Kafka` 기반 비동기 메시지로 수신해 알림을 저장, 전달 
+- 메인 서비스(`threadly-service`)에서 발행한 도메인 이벤트를 `Kafka` 기반 비동기 메시지로 수신해 알림을 저장, 전달
 - 알림 조회, 읽음 처리 등 `/api/notifications/*` REST API 요청 처리
 
 ## 관련 레포 및 서비스
@@ -15,6 +15,9 @@
 - **Threadly 메인 레포**: https://github.com/KimGyuBek/Threadly
 - **Wiki 문서**: https://github.com/KimGyuBek/Threadly/wiki
 - **메인 서비스**: https://github.com/KimGyuBek/threadly-service
+- **Swagger**: https://swagger.threadly.kr/swagger/notification/swagger-ui/index.html
+
+
 - **Threadly 서비스**: https://threadly.kr
 - **Threadly API**: https://api.threadly.kr
 
@@ -67,4 +70,3 @@ notification-service/
 ### 테스트 및 품질
 
 `JUnit 5` `k6` `JaCoCo` `Mockito`
-
