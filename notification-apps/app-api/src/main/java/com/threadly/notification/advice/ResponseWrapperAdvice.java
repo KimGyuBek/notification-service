@@ -31,6 +31,7 @@ public class ResponseWrapperAdvice implements ResponseBodyAdvice<Object> {
     if (path.startsWith("/actuator") ||
         path.startsWith("/swagger-ui") ||
         path.startsWith("/v3/api-docs") ||
+        path.startsWith("/v3-notification") ||
         path.equals("/swagger-ui.html")) {
       return body;
     }
