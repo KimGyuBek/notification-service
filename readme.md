@@ -15,6 +15,9 @@
 - **Threadly 메인 레포**: https://github.com/KimGyuBek/Threadly
 - **Wiki 문서**: https://github.com/KimGyuBek/Threadly/wiki
 - **메인 서비스**: https://github.com/KimGyuBek/threadly-service
+- **Swagger**: https://swagger.threadly.kr/swagger/notification/swagger-ui/index.html
+
+
 - **Threadly 서비스**: https://threadly.kr
 - **Threadly API**: https://api.threadly.kr
 
